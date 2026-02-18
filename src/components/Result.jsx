@@ -368,7 +368,7 @@ const Result = ({ mbti, stats = { strategy: 50, focus: 50, risk: 50 }, level = 1
 
         <div className="mt-12 text-center pb-12 flex flex-col items-center gap-6">
           <button
-            onClick={() => navigate('/saju')}
+            onClick={() => navigate('/saju', { state: { mbti } })}
             className="w-full max-w-md px-12 py-5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-full text-xl font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 animate-pulse"
           >
             🔮 내 사주와 MBTI 궁합 보기
