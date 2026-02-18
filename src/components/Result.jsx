@@ -43,10 +43,22 @@ const Result = ({ mbti, stats = { strategy: 50, focus: 50, risk: 50 }, level = 1
 
   const handleDownloadImage = async (ref, filename) => {
     if (ref.current) {
+      // Temporarily make visible for capture if needed, but fixed/opacity-0 usually works.
+      // Scrolling to top helps avoid offset issues
+      window.scrollTo(0, 0); 
+      
       const canvas = await html2canvas(ref.current, {
-        scale: 2, // High resolution
-        backgroundColor: null, // Keep transparency if needed, or set specific color
-        useCORS: true, // Allow cross-origin images
+        scale: 2, 
+        backgroundColor: null, 
+        useCORS: true,
+        logging: false,
+        onclone: (clonedDoc) => {
+          // Force styles in clone if necessary
+          const element = clonedDoc.getElementById(filename); // Need ID to target? Ref target is passed directly.
+          if (element) {
+            element.style.opacity = '1';
+          }
+        }
       });
       const link = document.createElement('a');
       link.download = `${filename}.png`;
@@ -81,7 +93,7 @@ const Result = ({ mbti, stats = { strategy: 50, focus: 50, risk: 50 }, level = 1
             <span className="font-bold text-blue-600 dark:text-blue-400">{resultData.category}</span> 분야의 뉴스에 관심이 많으시군요!
           </p>
 
-          {/* Stats Breakdown */}
+          {/* Stats Breakdown (Visible) */}
           <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
             <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4 text-left">📊 능력치 분석</h3>
             <div className="space-y-4">
@@ -138,8 +150,8 @@ const Result = ({ mbti, stats = { strategy: 50, focus: 50, risk: 50 }, level = 1
           </button>
         </div>
 
-        {/* Hidden Elements for Image Generation */}
-        <div className="absolute left-[-9999px] top-[-9999px]">
+        {/* Hidden Elements for Image Generation - Fixed position to ensure rendering */}
+        <div className="fixed top-0 left-0 -z-50 opacity-0 pointer-events-none">
           {/* 1. Instagram Feed (Square 1080x1080) */}
           <div ref={feedRef} className="w-[1080px] h-[1080px] bg-gray-900 flex flex-col items-center justify-center p-20 relative overflow-hidden">
              <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900"></div>
@@ -151,30 +163,33 @@ const Result = ({ mbti, stats = { strategy: 50, focus: 50, risk: 50 }, level = 1
                <span className="text-yellow-400 text-5xl font-bold mb-8 block drop-shadow-md">Lv.{level} {levelTitle}</span>
                <span className="text-blue-300 text-4xl font-bold tracking-[0.3em] mb-4 block">MY MBTI TYPE</span>
                {/* Changed to solid text color for html2canvas compatibility */}
-               <h1 className="text-[12rem] font-black text-white drop-shadow-2xl mb-10 leading-none">
+               <h1 
+                 className="text-[12rem] font-black text-white drop-shadow-2xl mb-10 leading-none"
+                 style={{ color: '#ffffff' }}
+               >
                  {mbti}
                </h1>
                <div className="w-full max-w-3xl bg-black/40 rounded-3xl p-10 mb-8 border border-white/10">
                  <div className="flex items-center justify-between text-4xl text-white mb-6">
-                   <span className="w-32 text-left">전략</span>
+                   <span className="w-32 text-left" style={{ color: 'white' }}>전략</span>
                    <div className="flex-grow mx-6 bg-gray-700 h-6 rounded-full overflow-hidden">
-                     <div className="bg-blue-500 h-full" style={{ width: `${stats.strategy}%` }}></div>
+                     <div className="bg-blue-500 h-full" style={{ width: `${stats.strategy}%`, backgroundColor: '#3b82f6' }}></div>
                    </div>
-                   <span className="font-bold w-16 text-right text-blue-300">{stats.strategy}</span>
+                   <span className="font-bold w-16 text-right text-blue-300" style={{ color: '#93c5fd' }}>{stats.strategy}</span>
                  </div>
                  <div className="flex items-center justify-between text-4xl text-white mb-6">
-                   <span className="w-32 text-left">집중</span>
+                   <span className="w-32 text-left" style={{ color: 'white' }}>집중</span>
                    <div className="flex-grow mx-6 bg-gray-700 h-6 rounded-full overflow-hidden">
-                     <div className="bg-purple-500 h-full" style={{ width: `${stats.focus}%` }}></div>
+                     <div className="bg-purple-500 h-full" style={{ width: `${stats.focus}%`, backgroundColor: '#a855f7' }}></div>
                    </div>
-                   <span className="font-bold w-16 text-right text-purple-300">{stats.focus}</span>
+                   <span className="font-bold w-16 text-right text-purple-300" style={{ color: '#d8b4fe' }}>{stats.focus}</span>
                  </div>
                  <div className="flex items-center justify-between text-4xl text-white">
-                   <span className="w-32 text-left">모험</span>
+                   <span className="w-32 text-left" style={{ color: 'white' }}>모험</span>
                    <div className="flex-grow mx-6 bg-gray-700 h-6 rounded-full overflow-hidden">
-                     <div className="bg-pink-500 h-full" style={{ width: `${stats.risk}%` }}></div>
+                     <div className="bg-pink-500 h-full" style={{ width: `${stats.risk}%`, backgroundColor: '#ec4899' }}></div>
                    </div>
-                   <span className="font-bold w-16 text-right text-pink-300">{stats.risk}</span>
+                   <span className="font-bold w-16 text-right text-pink-300" style={{ color: '#f9a8d4' }}>{stats.risk}</span>
                  </div>
                </div>
                <div className="flex gap-6 mt-4">
@@ -194,36 +209,24 @@ const Result = ({ mbti, stats = { strategy: 50, focus: 50, risk: 50 }, level = 1
              <div className="absolute top-[10%] left-[50%] -translate-x-1/2 w-[120%] h-[40%] bg-blue-600/20 rounded-full blur-[150px]"></div>
 
              <div className="relative z-10 w-full flex flex-col items-center h-full">
-               <div className="mt-40 mb-10 text-4xl text-gray-400 tracking-[0.5em] font-light">AI NEWS CURATOR</div>
+               <div className="mt-40 mb-20 text-4xl text-gray-400 tracking-[0.5em] font-light">AI NEWS CURATOR</div>
                
-               <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-4xl font-black px-12 py-4 rounded-full mb-10 shadow-2xl">
-                 Lv.{level} {levelTitle}
-               </div>
-
-               <h1 className="text-[12rem] font-black text-white mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+               <h1 
+                 className="text-[12rem] font-black text-white mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]"
+                 style={{ color: '#ffffff' }}
+               >
                  {mbti}
                </h1>
                
-               <div className="w-full bg-white/5 border border-white/10 rounded-[3rem] p-16 backdrop-blur-md mb-12 shadow-2xl">
-                 <h2 className="text-6xl font-bold text-blue-300 mb-12 tracking-tight">Stats Analysis</h2>
-                 <div className="space-y-8">
-                   <div>
-                     <div className="flex justify-between text-4xl text-gray-200 mb-2"><span>Strategy</span><span className="font-bold">{stats.strategy}</span></div>
-                     <div className="w-full bg-gray-700 h-4 rounded-full"><div className="bg-blue-500 h-4 rounded-full" style={{ width: `${stats.strategy}%` }}></div></div>
-                   </div>
-                   <div>
-                     <div className="flex justify-between text-4xl text-gray-200 mb-2"><span>Focus</span><span className="font-bold">{stats.focus}</span></div>
-                     <div className="w-full bg-gray-700 h-4 rounded-full"><div className="bg-purple-500 h-4 rounded-full" style={{ width: `${stats.focus}%` }}></div></div>
-                   </div>
-                   <div>
-                     <div className="flex justify-between text-4xl text-gray-200 mb-2"><span>Risk</span><span className="font-bold">{stats.risk}</span></div>
-                     <div className="w-full bg-gray-700 h-4 rounded-full"><div className="bg-pink-500 h-4 rounded-full" style={{ width: `${stats.risk}%` }}></div></div>
-                   </div>
-                 </div>
+               <div className="w-full bg-white/5 border border-white/10 rounded-[3rem] p-16 backdrop-blur-md mb-16 shadow-2xl">
+                 <h2 className="text-6xl font-bold text-blue-300 mb-8 tracking-tight" style={{ color: '#93c5fd' }}>AI Headline</h2>
+                 <p className="text-5xl leading-[1.4] text-gray-100 font-light" style={{ color: '#f3f4f6' }}>
+                   {resultData.summary}
+                 </p>
                </div>
 
-               <div className="w-full bg-white/5 border border-white/10 rounded-[3rem] p-16 backdrop-blur-md flex-grow mb-20 shadow-2xl">
-                 <h2 className="text-6xl font-bold text-purple-300 mb-12 tracking-tight">Key Traits</h2>
+               <div className="w-full bg-white/5 border border-white/10 rounded-[3rem] p-16 backdrop-blur-md shadow-2xl">
+                 <h2 className="text-6xl font-bold text-purple-300 mb-12 tracking-tight" style={{ color: '#d8b4fe' }}>Key Traits</h2>
                  <div className="space-y-12">
                    <div className="flex items-center gap-10">
                      <span className="text-8xl">👗</span>
@@ -232,6 +235,10 @@ const Result = ({ mbti, stats = { strategy: 50, focus: 50, risk: 50 }, level = 1
                    <div className="flex items-center gap-10">
                      <span className="text-8xl">💼</span>
                      <span className="text-5xl font-medium">{traits.job.split(',')[0]}</span>
+                   </div>
+                   <div className="flex items-center gap-10">
+                     <span className="text-8xl">✈️</span>
+                     <span className="text-5xl font-medium">{traits.travel.split(',')[0]}</span>
                    </div>
                  </div>
                </div>
