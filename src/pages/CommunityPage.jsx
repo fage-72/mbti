@@ -40,8 +40,39 @@ const CommunityPage = () => {
   useEffect(() => {
     getRedirectResult(auth).catch((error) => {
       console.error("Redirect Login Error", error);
+      if (error.code === 'auth/web-storage-unsupported' || error.code === 'auth/operation-not-supported-in-this-environment') {
+        alert('현재 브라우저 환경에서 구글 로그인이 차단되었습니다. 카카오톡/네이버 앱인 경우, 오른쪽 상단 메뉴를 눌러 "다른 브라우저로 열기" 또는 "Safari/Chrome으로 열기"를 선택해주세요! 🚀');
+      }
     });
   }, []);
+
+  const handleAction = async (task) => {
+    if (!user) {
+      if (userMbti === 'GUEST' && !localStorage.getItem('userMbti')) {
+        alert('테스트를 먼저 완료해주세요! ✨');
+        navigate('/');
+        return;
+      }
+      try {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const isInApp = /KAKAO|NAVER|Instagram|FBAN|FBAV/i.test(navigator.userAgent);
+
+        if (isInApp) {
+          alert('카카오톡/네이버 등 인앱 브라우저에서는 구글 로그인이 제한될 수 있습니다. 문제가 발생하면 일반 브라우저(크롬, 사파리)에서 접속해주세요! 💡');
+        }
+
+        if (isMobile) {
+          await signInWithRedirect(auth, googleProvider);
+        } else {
+          await signInWithPopup(auth, googleProvider);
+        }
+      } catch (e) {
+        console.error(e);
+        alert('로그인에 실패했습니다. 일반 브라우저(Chrome, Safari) 환경인지 확인해주세요.');
+      }
+      return;
+    }
+
 
   // 3. 유저 상태 관리 및 ID 생성
   useEffect(() => {
