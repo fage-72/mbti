@@ -5,6 +5,7 @@ import Quiz from './components/Quiz';
 import Result from './components/Result';
 import DetailPage from './pages/DetailPage';
 import SajuPage from './pages/SajuPage';
+import CommunityPage from './pages/CommunityPage';
 import './App.css';
 
 // Global Navigation Component to handle Theme and Back buttons
@@ -43,6 +44,7 @@ const AppRoutes = () => {
       <Route path="/" element={<StartScreen onStart={() => navigate('/quiz')} />} />
       <Route path="/quiz" element={<Quiz onFinish={(data) => navigate('/result', { state: data })} />} />
       <Route path="/result" element={<Result onReset={() => navigate('/')} />} />
+      <Route path="/community" element={<CommunityPage />} />
       <Route path="/saju" element={<SajuPage />} />
       <Route path="/:slug" element={<DetailPage />} />
     </Routes>
