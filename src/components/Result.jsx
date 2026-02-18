@@ -49,18 +49,12 @@ const Result = ({ mbti, onReset }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* News Section */}
           <div className="bg-gray-800 rounded-2xl shadow-2xl overflow-hidden border border-gray-700 flex flex-col hover:shadow-blue-900/20 transition-shadow duration-300">
-            <div className="h-48 bg-gray-700 relative shrink-0">
-              <img 
-                src={resultData.image} 
-                alt={mbti} 
-                className="w-full h-full object-cover opacity-80"
-              />
-              <div className="absolute bottom-0 left-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent w-full h-24"></div>
-              <span className="absolute top-4 right-4 bg-blue-600 text-xs font-bold px-2 py-1 rounded">
-                NEWS
-              </span>
-            </div>
             <div className="p-6 flex flex-col flex-grow">
+              <div className="flex justify-between items-start mb-4">
+                <span className="bg-blue-600 text-[10px] font-bold px-2 py-1 rounded tracking-tighter">
+                  NEWS
+                </span>
+              </div>
               <h2 className="text-2xl font-bold mb-3 leading-tight text-blue-300">
                 {resultData.headline}
               </h2>
@@ -78,18 +72,12 @@ const Result = ({ mbti, onReset }) => {
 
           {/* Fashion Section */}
           <div className="bg-gray-800 rounded-2xl shadow-2xl overflow-hidden border border-gray-700 flex flex-col hover:shadow-purple-900/20 transition-shadow duration-300">
-            <div className="h-48 bg-gray-700 relative shrink-0">
-              <img 
-                src={fashion.image} 
-                alt={`${mbti} Fashion`} 
-                className="w-full h-full object-cover opacity-80"
-              />
-              <div className="absolute bottom-0 left-0 bg-gradient-to-t from-gray-800 via-transparent to-transparent w-full h-24"></div>
-              <span className="absolute top-4 right-4 bg-purple-600 text-xs font-bold px-2 py-1 rounded">
-                FASHION
-              </span>
-            </div>
             <div className="p-6 flex flex-col flex-grow">
+              <div className="flex justify-between items-start mb-4">
+                <span className="bg-purple-600 text-[10px] font-bold px-2 py-1 rounded tracking-tighter">
+                  FASHION
+                </span>
+              </div>
               <h2 className="text-2xl font-bold mb-3 leading-tight text-purple-300">
                 {fashion.style}
               </h2>
@@ -177,9 +165,6 @@ const TraitCard = ({ title, icon, content, color, onClick }) => (
     onClick={onClick}
     className={`p-6 rounded-2xl border ${color} backdrop-blur-sm hover:bg-opacity-40 transition-all duration-300 hover:-translate-y-1 h-full cursor-pointer group relative`}
   >
-    <div className="absolute top-4 right-4 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity">
-      ↗️
-    </div>
     <div className="flex items-center gap-3 mb-3">
       <span className="text-3xl">{icon}</span>
       <h4 className="font-bold text-lg text-gray-100 group-hover:text-blue-300 transition-colors">{title}</h4>
