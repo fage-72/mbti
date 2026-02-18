@@ -82,53 +82,54 @@ const Result = ({ onReset }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-dvh bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white p-6 py-12 transition-colors duration-300">
+    <div className="flex flex-col items-center justify-center min-h-dvh bg-[#FFF9F9] dark:bg-[#2D2424] text-[#554444] dark:text-[#FFE5E5] p-6 py-12 transition-colors duration-300">
       <div className="max-w-6xl w-full flex flex-col gap-12">
         
         {/* Header Section */}
         <div className="text-center relative">
-          <div className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-sm md:text-base font-bold px-4 py-1 rounded-full mb-4 shadow-lg animate-bounce">
-            Lv.{level} {levelTitle}
+          <div className="inline-block bg-pastel-pink text-white text-base md:text-lg font-black px-6 py-2 rounded-full mb-6 shadow-[0_5px_15px_rgba(255,154,162,0.4)] animate-bounce-slow border-2 border-white">
+            🧸 Lv.{level} {levelTitle}
           </div>
-          <p className="text-gray-500 dark:text-gray-400 text-sm font-bold uppercase tracking-widest mb-3">
+          <p className="text-[#AEC6CF] dark:text-blue-300 text-sm font-black uppercase tracking-[0.3em] mb-3">
             당신의 MBTI 유형은
           </p>
-          <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-500 mb-6 drop-shadow-sm">
+          <h1 className="text-7xl md:text-9xl font-black text-[#FF9AA2] mb-8 drop-shadow-[0_4px_0_rgba(255,255,255,1)]">
             {mbti}
           </h1>
-          <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 font-light mb-8">
-            <span className="font-bold text-blue-600 dark:text-blue-400">{resultData.category}</span> 분야의 뉴스에 관심이 많으시군요!
+          <p className="text-xl md:text-2xl text-gray-500 dark:text-gray-300 font-medium mb-10 leading-relaxed">
+            포근한 <span className="font-black text-pastel-blue dark:text-blue-300">#{resultData.category}</span> 전문가,<br/>
+            세상을 부드럽게 바라보시는군요! ✨
           </p>
 
           {/* Stats Breakdown (Visible) */}
-          <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
-            <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4 text-left">📊 능력치 분석</h3>
-            <div className="space-y-4">
+          <div className="max-w-xl mx-auto bg-white/70 dark:bg-gray-800/50 backdrop-blur-md rounded-[3rem] p-8 shadow-[0_15px_40px_rgba(0,0,0,0.05)] border-4 border-white dark:border-gray-700">
+            <h3 className="text-xl font-black text-[#FF9AA2] mb-6 text-center">📊 나의 포근 지수</h3>
+            <div className="space-y-6">
               <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="font-medium text-blue-600 dark:text-blue-400">전략 (Strategy)</span>
-                  <span className="font-bold text-gray-700 dark:text-gray-300">{stats.strategy}</span>
+                <div className="flex justify-between text-sm mb-2 px-2">
+                  <span className="font-black text-pastel-blue">전략 (Strategy)</span>
+                  <span className="font-black text-gray-400">{stats.strategy}</span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                  <div className="bg-blue-500 h-2.5 rounded-full transition-all duration-1000" style={{ width: `${stats.strategy}%` }}></div>
+                <div className="w-full bg-[#F0F7F9] dark:bg-gray-700 rounded-full h-5 shadow-inner p-1">
+                  <div className="bg-pastel-blue h-full rounded-full transition-all duration-1000 shadow-[0_0_8px_rgba(174,198,207,0.5)]" style={{ width: `${stats.strategy}%` }}></div>
                 </div>
               </div>
               <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="font-medium text-purple-600 dark:text-purple-400">집중력 (Focus)</span>
-                  <span className="font-bold text-gray-700 dark:text-gray-300">{stats.focus}</span>
+                <div className="flex justify-between text-sm mb-2 px-2">
+                  <span className="font-black text-pastel-pink">집중력 (Focus)</span>
+                  <span className="font-black text-gray-400">{stats.focus}</span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                  <div className="bg-purple-500 h-2.5 rounded-full transition-all duration-1000" style={{ width: `${stats.focus}%` }}></div>
+                <div className="w-full bg-[#FFF0F3] dark:bg-gray-700 rounded-full h-5 shadow-inner p-1">
+                  <div className="bg-pastel-pink h-full rounded-full transition-all duration-1000 shadow-[0_0_8px_rgba(255,209,220,0.5)]" style={{ width: `${stats.focus}%` }}></div>
                 </div>
               </div>
               <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="font-medium text-pink-600 dark:text-pink-400">모험심 (Risk)</span>
-                  <span className="font-bold text-gray-700 dark:text-gray-300">{stats.risk}</span>
+                <div className="flex justify-between text-sm mb-2 px-2">
+                  <span className="font-black text-[#FFB7B2]">모험심 (Risk)</span>
+                  <span className="font-black text-gray-400">{stats.risk}</span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                  <div className="bg-pink-500 h-2.5 rounded-full transition-all duration-1000" style={{ width: `${stats.risk}%` }}></div>
+                <div className="w-full bg-[#FFF5F5] dark:bg-gray-700 rounded-full h-5 shadow-inner p-1">
+                  <div className="bg-[#FFB7B2] h-full rounded-full transition-all duration-1000 shadow-[0_0_8px_rgba(255,183,178,0.5)]" style={{ width: `${stats.risk}%` }}></div>
                 </div>
               </div>
             </div>
@@ -136,24 +137,24 @@ const Result = ({ onReset }) => {
         </div>
 
         {/* Share Section Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-8">
+        <div className="flex flex-wrap justify-center gap-5 mb-8">
           <button
             onClick={() => handleDownloadImage(feedRef, `${mbti}_feed`)}
-            className="px-6 py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2"
+            className="px-8 py-4 bg-pastel-pink text-white rounded-full font-black shadow-lg hover:shadow-[0_8px_25px_rgba(255,154,162,0.5)] hover:scale-105 transition-all flex items-center gap-3 border-2 border-white"
           >
-            📸 인스타 피드 저장
+            📸 피드 저장
           </button>
           <button
             onClick={() => handleDownloadImage(storyRef, `${mbti}_story`)}
-            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2"
+            className="px-8 py-4 bg-pastel-blue text-white rounded-full font-black shadow-lg hover:shadow-[0_8px_25px_rgba(174,198,207,0.5)] hover:scale-105 transition-all flex items-center gap-3 border-2 border-white"
           >
             📱 스토리 저장
           </button>
           <button
             onClick={handleCopyTwitter}
-            className="px-6 py-3 bg-sky-500 text-white rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2"
+            className="px-8 py-4 bg-[#B2F2BB] text-[#557755] rounded-full font-black shadow-lg hover:shadow-[0_8px_25px_rgba(178,242,187,0.5)] hover:scale-105 transition-all flex items-center gap-3 border-2 border-white"
           >
-            🐦 트위터 요약 복사
+            🐦 결과 복사
           </button>
         </div>
 
@@ -260,52 +261,52 @@ const Result = ({ onReset }) => {
         </div>
 
         {/* Main Content Grid (News & Fashion) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* News Section */}
-          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl dark:shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group">
-            <div className="p-8 flex flex-col flex-grow relative">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-cyan-500"></div>
+          <div className="bg-white dark:bg-gray-800 rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden border-4 border-white dark:border-gray-700 flex flex-col hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
+            <div className="p-10 flex flex-col flex-grow relative">
+              <div className="absolute top-0 left-0 w-full h-3 bg-pastel-blue"></div>
               <div className="flex justify-between items-center mb-6">
-                <span className="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs font-bold px-3 py-1 rounded-full tracking-wide">
-                  NEWS
+                <span className="bg-pastel-blue/20 text-pastel-blue text-sm font-black px-4 py-1 rounded-full tracking-widest">
+                  NEWS 📰
                 </span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-4 leading-tight text-gray-900 dark:text-blue-300 group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors">
+              <h2 className="text-2xl md:text-3xl font-black mb-6 leading-tight text-[#556677] dark:text-blue-300 group-hover:text-pastel-blue transition-colors">
                 {resultData.headline}
               </h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed flex-grow text-lg">
+              <p className="text-gray-500 dark:text-gray-400 mb-8 leading-relaxed flex-grow text-lg font-medium">
                 {resultData.summary}
               </p>
               <button 
                 onClick={() => window.open(`https://www.google.com/search?q=${resultData.headline}`, '_blank')}
-                className="w-full py-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-blue-50 dark:hover:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl font-bold transition-all border border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-500 flex items-center justify-center gap-2"
+                className="w-full py-5 bg-[#F0F7F9] dark:bg-gray-700/50 hover:bg-pastel-blue hover:text-white text-pastel-blue rounded-[1.5rem] font-black transition-all border-2 border-transparent hover:border-white flex items-center justify-center gap-2"
               >
-                뉴스 검색하기 🔍
+                뉴스 구경가기 🔍
               </button>
             </div>
           </div>
 
           {/* Fashion Section */}
-          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl dark:shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group">
-            <div className="p-8 flex flex-col flex-grow relative">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500"></div>
+          <div className="bg-white dark:bg-gray-800 rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden border-4 border-white dark:border-gray-700 flex flex-col hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
+            <div className="p-10 flex flex-col flex-grow relative">
+              <div className="absolute top-0 left-0 w-full h-3 bg-pastel-pink"></div>
               <div className="flex justify-between items-center mb-6">
-                <span className="bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 text-xs font-bold px-3 py-1 rounded-full tracking-wide">
-                  FASHION
+                <span className="bg-pastel-pink/20 text-pastel-pink text-sm font-black px-4 py-1 rounded-full tracking-widest">
+                  FASHION 👗
                 </span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-4 leading-tight text-gray-900 dark:text-purple-300 group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors">
+              <h2 className="text-2xl md:text-3xl font-black mb-6 leading-tight text-[#775566] dark:text-pink-300 group-hover:text-pastel-pink transition-colors">
                 {fashion.style}
               </h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed text-lg">
+              <p className="text-gray-500 dark:text-gray-400 mb-6 leading-relaxed text-lg font-medium">
                 {fashion.description}
               </p>
-              <div className="bg-gray-50 dark:bg-gray-900/50 rounded-2xl p-5 mb-8 flex-grow border border-gray-100 dark:border-gray-700/50">
-                <h3 className="text-sm font-bold text-gray-500 dark:text-gray-400 mb-3 uppercase tracking-wider">✨ Styling Tips</h3>
-                <ul className="text-gray-700 dark:text-gray-300 space-y-2 list-none">
+              <div className="bg-[#FFF9F9] dark:bg-gray-900/50 rounded-[1.8rem] p-6 mb-8 flex-grow border-2 border-pastel-pink/10">
+                <h3 className="text-sm font-black text-pastel-pink mb-4 uppercase tracking-widest">🎀 Styling Tips</h3>
+                <ul className="text-gray-600 dark:text-gray-300 space-y-3 list-none font-medium">
                   {fashion.tips.map((tip, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <span className="text-purple-500 mt-1">•</span>
+                    <li key={index} className="flex items-start gap-3">
+                      <span className="text-pastel-pink mt-1">💕</span>
                       {tip}
                     </li>
                   ))}
@@ -313,9 +314,9 @@ const Result = ({ onReset }) => {
               </div>
               <button 
                 onClick={() => window.open(`https://www.google.com/search?q=${fashion.style} 스타일`, '_blank')}
-                className="w-full py-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-purple-50 dark:hover:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl font-bold transition-all border border-gray-200 dark:border-gray-600 hover:border-purple-300 dark:hover:border-purple-500 flex items-center justify-center gap-2"
+                className="w-full py-5 bg-[#FFF0F3] dark:bg-gray-700/50 hover:bg-pastel-pink hover:text-white text-pastel-pink rounded-[1.5rem] font-black transition-all border-2 border-transparent hover:border-white flex items-center justify-center gap-2"
               >
-                스타일 검색하기 👗
+                스타일 구경가기 ✨
               </button>
             </div>
           </div>
@@ -323,74 +324,71 @@ const Result = ({ onReset }) => {
 
         {/* Detailed Traits Analysis Section */}
         <div className="w-full mt-8">
-          <h3 className="text-3xl md:text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-emerald-600 dark:from-teal-400 dark:to-cyan-500 drop-shadow-sm">
-            🧐 {mbti}의 라이프스타일 분석
+          <h3 className="text-3xl md:text-5xl font-black text-center mb-16 text-[#FF9AA2] drop-shadow-sm">
+            🧐 {mbti}의 포근한 라이프
           </h3>
-          <p className="text-center text-gray-500 dark:text-gray-400 mb-10 -mt-8 text-sm font-medium">
-            각 카드를 클릭하면 상세 분석 페이지로 이동합니다 🔍
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <TraitCard 
               title="직업·역할" icon="💼" content={traits.job} 
-              color="border-blue-200 bg-blue-50/50 hover:bg-blue-100 dark:border-blue-500/30 dark:bg-blue-900/20 dark:hover:bg-blue-900/40" 
+              color="border-blue-50 bg-white/80 hover:bg-[#F0F7F9] text-pastel-blue" 
               onClick={() => handleTraitClick('job')}
             />
             <TraitCard 
               title="학습 방식" icon="📚" content={traits.learning} 
-              color="border-green-200 bg-green-50/50 hover:bg-green-100 dark:border-green-500/30 dark:bg-green-900/20 dark:hover:bg-green-900/40" 
+              color="border-green-50 bg-white/80 hover:bg-[#F2FAF2] text-green-400" 
               onClick={() => handleTraitClick('learning')}
             />
             <TraitCard 
               title="콘텐츠 소비" icon="📺" content={traits.content} 
-              color="border-red-200 bg-red-50/50 hover:bg-red-100 dark:border-red-500/30 dark:bg-red-900/20 dark:hover:bg-red-900/40" 
+              color="border-red-50 bg-white/80 hover:bg-[#FFF5F5] text-[#FFB7B2]" 
               onClick={() => handleTraitClick('content')}
             />
             <TraitCard 
               title="선호 UI/UX" icon="📱" content={traits.ui} 
-              color="border-yellow-200 bg-yellow-50/50 hover:bg-yellow-100 dark:border-yellow-500/30 dark:bg-yellow-900/20 dark:hover:bg-yellow-900/40" 
+              color="border-yellow-50 bg-white/80 hover:bg-[#FFFDF0] text-yellow-400" 
               onClick={() => handleTraitClick('ui')}
             />
             <TraitCard 
               title="쇼핑 스타일" icon="🛒" content={traits.shopping} 
-              color="border-pink-200 bg-pink-50/50 hover:bg-pink-100 dark:border-pink-500/30 dark:bg-pink-900/20 dark:hover:bg-pink-900/40" 
+              color="border-pink-50 bg-white/80 hover:bg-[#FFF0F3] text-pastel-pink" 
               onClick={() => handleTraitClick('shopping')}
             />
             <TraitCard 
               title="여행 스타일" icon="✈️" content={traits.travel} 
-              color="border-indigo-200 bg-indigo-50/50 hover:bg-indigo-100 dark:border-indigo-500/30 dark:bg-indigo-900/20 dark:hover:bg-indigo-900/40" 
+              color="border-indigo-50 bg-white/80 hover:bg-[#F5F5FF] text-indigo-300" 
               onClick={() => handleTraitClick('travel')}
             />
             <TraitCard 
               title="인간관계" icon="🤝" content={traits.relationship} 
-              color="border-orange-200 bg-orange-50/50 hover:bg-orange-100 dark:border-orange-500/30 dark:bg-orange-900/20 dark:hover:bg-orange-900/40" 
+              color="border-orange-50 bg-white/80 hover:bg-[#FFF7F0] text-orange-300" 
               onClick={() => handleTraitClick('relationship')}
             />
             <TraitCard 
               title="스트레스 해소" icon="🧘" content={traits.stress} 
-              color="border-teal-200 bg-teal-50/50 hover:bg-teal-100 dark:border-teal-500/30 dark:bg-teal-900/20 dark:hover:bg-teal-900/40" 
+              color="border-teal-50 bg-white/80 hover:bg-[#F0FAFA] text-teal-300" 
               onClick={() => handleTraitClick('stress')}
             />
           </div>
         </div>
 
-        <div className="mt-16 w-full max-w-2xl mx-auto border-t border-gray-200 dark:border-gray-800 pt-12 text-center">
-          <h4 className="text-xl font-bold mb-8 text-gray-800 dark:text-gray-200">
-            🔮 더 깊은 분석과 소통을 원하시나요?
+        <div className="mt-16 w-full max-w-2xl mx-auto border-t-4 border-white dark:border-gray-800 pt-16 text-center">
+          <h4 className="text-2xl font-black mb-10 text-[#554444] dark:text-gray-200">
+            🔮 더 깊은 이야기를 나눠볼까요?
           </h4>
           
-          <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-col items-center gap-8">
             <button
               onClick={() => navigate('/saju', { state: { mbti } })}
-              className="w-full px-12 py-5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-2xl text-xl font-bold shadow-xl hover:shadow-indigo-500/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-3"
+              className="w-full px-12 py-6 bg-pastel-blue hover:bg-[#A0B6BF] text-white rounded-[2rem] text-2xl font-black shadow-[0_10px_25px_rgba(174,198,207,0.4)] hover:scale-[1.03] transition-all flex items-center justify-center gap-4 border-4 border-white"
             >
-              🔮 내 사주와 MBTI 궁합 분석
+              🔮 사주 & MBTI 궁합 보기
             </button>
 
             <button
               onClick={() => navigate('/community', { state: { mbti } })}
-              className="w-full px-12 py-5 bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-white rounded-2xl text-xl font-bold shadow-xl hover:shadow-teal-500/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-3 animate-bounce-subtle"
+              className="w-full px-12 py-6 bg-pastel-pink hover:bg-[#FFB7C5] text-white rounded-[2rem] text-2xl font-black shadow-[0_10px_25px_rgba(255,154,162,0.4)] hover:scale-[1.03] transition-all flex items-center justify-center gap-4 border-4 border-white"
             >
-              💬 MBTI 커뮤니티 입장하기
+              💬 포근한 커뮤니티 입장
             </button>
           </div>
         </div>
@@ -412,15 +410,15 @@ const Result = ({ onReset }) => {
 const TraitCard = ({ title, icon, content, color, onClick }) => (
   <div 
     onClick={onClick}
-    className={`p-6 rounded-3xl border ${color} backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 h-full cursor-pointer group shadow-sm hover:shadow-lg bg-opacity-60 dark:bg-opacity-20`}
+    className={`p-8 rounded-[2rem] border-4 ${color} backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 h-full cursor-pointer group shadow-[0_10px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.08)]`}
   >
-    <div className="flex items-center gap-4 mb-4">
-      <span className="text-4xl filter drop-shadow-sm">{icon}</span>
-      <h4 className="font-bold text-lg text-gray-800 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors">{title}</h4>
+    <div className="flex flex-col items-center text-center gap-4">
+      <div className="text-6xl mb-2 filter drop-shadow-sm group-hover:scale-110 transition-transform">{icon}</div>
+      <h4 className="font-black text-xl mb-2">{title}</h4>
+      <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium">
+        {content}
+      </p>
     </div>
-    <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed font-medium group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
-      {content}
-    </p>
   </div>
 );
 

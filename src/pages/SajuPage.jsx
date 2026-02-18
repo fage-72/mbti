@@ -115,155 +115,137 @@ const SajuPage = () => {
   };
 
   return (
-    <div className="min-h-dvh bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white p-6 py-12 transition-colors duration-300 flex flex-col items-center">
+    <div className="min-h-dvh bg-[#FFF9F9] dark:bg-[#2D2424] text-[#554444] dark:text-[#FFE5E5] p-6 py-12 transition-colors duration-300 flex flex-col items-center">
       <div className="max-w-2xl w-full">
         <button 
           onClick={() => navigate(-1)}
-          className="mb-8 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-300"
+          className="mb-8 px-5 py-2 bg-white dark:bg-gray-800 border-2 border-pastel-blue/20 rounded-full shadow-sm hover:bg-pastel-blue/10 transition-colors flex items-center gap-2 text-sm font-black text-pastel-blue"
         >
-          ← 이전으로 돌아가기
+          🧸 이전으로
         </button>
 
         <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-red-600">
-            🔮 AI 사주 분석
+          <h1 className="text-4xl md:text-5xl font-black mb-4 text-[#FF9AA2]">
+            🔮 포근한 사주 분석
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 font-light">
-            생년월일로 알아보는 당신의 운명
-            {userMbti && <span className="block mt-2 text-blue-600 dark:text-blue-400 font-bold">X {userMbti} 궁합 분석 포함</span>}
+          <p className="text-xl text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
+            별들이 들려주는 당신의 이야기
+            {userMbti && <span className="block mt-2 text-pastel-blue dark:text-blue-300 font-black">X {userMbti} 특별 궁합</span>}
           </p>
         </header>
 
         {!result ? (
-          <form onSubmit={handleCalculate} className="bg-white dark:bg-gray-800/80 rounded-3xl p-8 md:p-10 shadow-2xl border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm space-y-8">
-            <div className="space-y-6">
+          <form onSubmit={handleCalculate} className="bg-white/80 dark:bg-gray-800/80 rounded-[3rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border-4 border-white dark:border-gray-700 backdrop-blur-sm space-y-10">
+            <div className="space-y-8">
               <div className="group">
-                <label className="block text-sm font-bold mb-2 text-gray-500 dark:text-gray-400 group-focus-within:text-yellow-500 transition-colors uppercase tracking-widest">태어난 연도 (YYYY)</label>
+                <label className="block text-sm font-black mb-3 text-gray-400 dark:text-gray-500 uppercase tracking-widest px-2">태어난 연도 (YYYY)</label>
                 <input 
                   type="number" 
                   placeholder="예: 1995" 
-                  className="w-full p-5 rounded-2xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:border-yellow-500 dark:focus:border-yellow-500 focus:ring-4 focus:ring-yellow-500/10 outline-none transition-all text-xl font-medium placeholder:text-gray-300 dark:placeholder:text-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  className="w-full p-6 rounded-[1.8rem] bg-[#F0F7F9] dark:bg-gray-900/50 border-2 border-transparent focus:border-pastel-blue outline-none transition-all text-2xl font-black text-gray-600 dark:text-white placeholder:text-gray-300"
                   value={birthData.year}
                   onChange={(e) => setBirthData({...birthData, year: e.target.value})}
                   required
                 />
               </div>
               
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-8">
                 <div className="group">
-                  <label className="block text-sm font-bold mb-2 text-gray-500 dark:text-gray-400 group-focus-within:text-yellow-500 transition-colors uppercase tracking-widest">월 (MM)</label>
+                  <label className="block text-sm font-black mb-3 text-gray-400 dark:text-gray-500 uppercase tracking-widest px-2">월 (MM)</label>
                   <input 
                     type="number" 
-                    placeholder="예: 8" 
-                    className="w-full p-5 rounded-2xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:border-yellow-500 dark:focus:border-yellow-500 focus:ring-4 focus:ring-yellow-500/10 outline-none transition-all text-xl font-medium placeholder:text-gray-300 dark:placeholder:text-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    placeholder="8" 
+                    className="w-full p-6 rounded-[1.8rem] bg-[#FFF0F3] dark:bg-gray-900/50 border-2 border-transparent focus:border-pastel-pink outline-none transition-all text-2xl font-black text-gray-600 dark:text-white placeholder:text-gray-300"
                     value={birthData.month}
                     onChange={(e) => setBirthData({...birthData, month: e.target.value})}
                     required
                   />
                 </div>
                 <div className="group">
-                  <label className="block text-sm font-bold mb-2 text-gray-500 dark:text-gray-400 group-focus-within:text-yellow-500 transition-colors uppercase tracking-widest">일 (DD)</label>
+                  <label className="block text-sm font-black mb-3 text-gray-400 dark:text-gray-500 uppercase tracking-widest px-2">일 (DD)</label>
                   <input 
                     type="number" 
-                    placeholder="예: 15" 
-                    className="w-full p-5 rounded-2xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:border-yellow-500 dark:focus:border-yellow-500 focus:ring-4 focus:ring-yellow-500/10 outline-none transition-all text-xl font-medium placeholder:text-gray-300 dark:placeholder:text-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    placeholder="15" 
+                    className="w-full p-6 rounded-[1.8rem] bg-[#FFFDF0] dark:bg-gray-900/50 border-2 border-transparent focus:border-yellow-200 outline-none transition-all text-2xl font-black text-gray-600 dark:text-white placeholder:text-gray-300"
                     value={birthData.day}
                     onChange={(e) => setBirthData({...birthData, day: e.target.value})}
                     required
                   />
                 </div>
               </div>
-
-              <div className="group">
-                <label className="block text-sm font-bold mb-2 text-gray-500 dark:text-gray-400 group-focus-within:text-yellow-500 transition-colors uppercase tracking-widest">태어난 시간 (선택)</label>
-                <div className="relative">
-                  <input 
-                    type="time" 
-                    className="w-full p-5 rounded-2xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:border-yellow-500 dark:focus:border-yellow-500 focus:ring-4 focus:ring-yellow-500/10 outline-none transition-all text-xl font-medium text-gray-700 dark:text-gray-200"
-                    value={birthData.time}
-                    onChange={(e) => setBirthData({...birthData, time: e.target.value})}
-                  />
-                  <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none text-gray-400">
-                    🕒
-                  </div>
-                </div>
-              </div>
             </div>
 
             <button 
               type="submit"
-              className="w-full py-5 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-600 text-white font-black text-xl rounded-2xl shadow-xl hover:shadow-yellow-500/20 transform hover:-translate-y-1 transition-all flex items-center justify-center gap-3"
+              className="w-full py-6 bg-pastel-pink text-white font-black text-2xl rounded-full shadow-[0_10px_25px_rgba(255,154,162,0.4)] hover:scale-[1.02] transition-all flex items-center justify-center gap-4 border-4 border-white"
             >
-              내 운명의 지도 확인하기 🗺️
+              내 운명의 별 확인하기 ✨
             </button>
           </form>
         ) : (
-          <div className="space-y-8 animate-fade-in">
+          <div className="space-y-10 animate-fade-in">
             {/* 사주 결과 카드 */}
-            <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl border border-gray-100 dark:border-gray-700">
-              <div className="text-center mb-10">
-                <span className="text-6xl mb-4 block">🧧</span>
-                <h2 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
-                  {birthData.year}년 {result.season}생 <span className="text-yellow-500">{result.animal}띠</span>
+            <div className="bg-white/90 dark:bg-gray-800 rounded-[3rem] p-10 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border-4 border-white dark:border-gray-700">
+              <div className="text-center mb-12">
+                <span className="text-7xl mb-6 block animate-bounce-slow">🧧</span>
+                <h2 className="text-3xl font-black mb-4 text-[#FF9AA2]">
+                  {birthData.year}년 {result.season}생 <span className="text-pastel-blue">{result.animal}띠</span>
                 </h2>
-                <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
+                <p className="text-gray-500 dark:text-gray-400 text-xl leading-relaxed font-medium">
                   {result.personality}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-yellow-50 dark:bg-yellow-900/20 p-6 rounded-2xl text-center border border-yellow-100 dark:border-yellow-700/30">
-                  <span className="text-3xl mb-2 block">💼</span>
-                  <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-1">추천 직업</h3>
-                  <p className="text-yellow-700 dark:text-yellow-400 text-sm">{result.recommendations.job}</p>
+                <div className="bg-[#F0F7F9] dark:bg-blue-900/20 p-8 rounded-[2rem] text-center border-4 border-white shadow-sm">
+                  <span className="text-4xl mb-4 block">💼</span>
+                  <h3 className="font-black text-pastel-blue mb-2">추천 직업</h3>
+                  <p className="text-gray-500 text-sm font-bold">{result.recommendations.job}</p>
                 </div>
-                <div className="bg-red-50 dark:bg-red-900/20 p-6 rounded-2xl text-center border border-red-100 dark:border-red-700/30">
-                  <span className="text-3xl mb-2 block">🎨</span>
-                  <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-1">추천 취미</h3>
-                  <p className="text-red-700 dark:text-red-400 text-sm">{result.recommendations.hobby}</p>
+                <div className="bg-[#FFF0F3] dark:bg-red-900/20 p-8 rounded-[2rem] text-center border-4 border-white shadow-sm">
+                  <span className="text-4xl mb-4 block">🎨</span>
+                  <h3 className="font-black text-pastel-pink mb-2">추천 취미</h3>
+                  <p className="text-gray-500 text-sm font-bold">{result.recommendations.hobby}</p>
                 </div>
-                <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-2xl text-center border border-blue-100 dark:border-blue-700/30">
-                  <span className="text-3xl mb-2 block">✈️</span>
-                  <h3 className="font-bold text-gray-800 dark:text-gray-200 mb-1">행운의 여행지</h3>
-                  <p className="text-blue-700 dark:text-blue-400 text-sm">{result.recommendations.travel}</p>
+                <div className="bg-[#FFFDF0] dark:bg-yellow-900/20 p-8 rounded-[2rem] text-center border-4 border-white shadow-sm">
+                  <span className="text-4xl mb-4 block">✈️</span>
+                  <h3 className="font-black text-yellow-500 mb-2">행운의 여행</h3>
+                  <p className="text-gray-500 text-sm font-bold">{result.recommendations.travel}</p>
                 </div>
               </div>
             </div>
 
-            {/* MBTI 궁합 카드 (MBTI 정보가 있을 때만 표시) */}
+            {/* MBTI 궁합 카드 */}
             {userMbti && (
-              <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl p-8 shadow-xl text-white relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
-                
-                <h3 className="text-2xl font-bold mb-6 flex items-center gap-2 relative z-10">
-                  <span>💞</span> 사주 X MBTI 케미 분석
+              <div className="bg-pastel-blue rounded-[3rem] p-10 shadow-[0_20px_50px_rgba(174,198,207,0.3)] text-white relative overflow-hidden border-4 border-white">
+                <h3 className="text-3xl font-black mb-8 flex items-center gap-3 relative z-10">
+                  <span>💞</span> 사주 X MBTI 케미
                 </h3>
                 
-                <div className="flex flex-col md:flex-row items-center gap-8 relative z-10">
+                <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
                   <div className="flex-shrink-0 text-center">
-                    <div className="relative w-32 h-32 flex items-center justify-center">
+                    <div className="relative w-40 h-40 flex items-center justify-center">
                       <svg className="w-full h-full transform -rotate-90">
-                        <circle cx="64" cy="64" r="56" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-white/20" />
+                        <circle cx="80" cy="80" r="70" stroke="rgba(255,255,255,0.2)" strokeWidth="15" fill="transparent" />
                         <circle 
-                          cx="64" cy="64" r="56" 
-                          stroke="currentColor" strokeWidth="12" 
+                          cx="80" cy="80" r="70" 
+                          stroke="white" strokeWidth="15" 
                           fill="transparent" 
-                          strokeDasharray={351.86} 
-                          strokeDashoffset={351.86 - (351.86 * result.matchScore) / 100}
-                          className="text-yellow-400 transition-all duration-1000 ease-out" 
+                          strokeDasharray={439.82} 
+                          strokeDashoffset={439.82 - (439.82 * result.matchScore) / 100}
+                          className="transition-all duration-1000 ease-out" 
                         />
                       </svg>
-                      <span className="absolute text-3xl font-black">{result.matchScore}점</span>
+                      <span className="absolute text-4xl font-black">{result.matchScore}점</span>
                     </div>
-                    <p className="mt-2 font-bold text-yellow-300">궁합 점수</p>
                   </div>
                   
                   <div className="flex-grow">
-                    <div className="bg-white/10 rounded-xl p-6 backdrop-blur-sm border border-white/20">
-                      <h4 className="text-xl font-bold mb-3 text-yellow-300">
-                        {userMbti} X {result.season}생의 조화
+                    <div className="bg-white/20 rounded-[2rem] p-8 backdrop-blur-sm border-2 border-white/30">
+                      <h4 className="text-2xl font-black mb-4 text-white">
+                        {userMbti}와 {result.season}의 조화
                       </h4>
-                      <p className="text-lg leading-relaxed text-gray-100">
+                      <p className="text-xl leading-relaxed text-blue-50 font-medium">
                         "{result.matchDesc}"
                       </p>
                     </div>
@@ -274,9 +256,9 @@ const SajuPage = () => {
 
             <button 
               onClick={() => setResult(null)}
-              className="w-full py-4 border-2 border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 font-bold text-lg rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
+              className="w-full py-5 bg-white dark:bg-gray-800 border-4 border-white rounded-full text-gray-400 font-black text-xl hover:bg-gray-50 transition-all shadow-sm"
             >
-              다른 생년월일로 다시 보기
+              다시 확인하기 🔄
             </button>
           </div>
         )}

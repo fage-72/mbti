@@ -159,42 +159,42 @@ const CommunityPage = () => {
   };
 
   return (
-    <div className="min-h-dvh bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white p-4 py-8 transition-colors duration-300">
+    <div className="min-h-dvh bg-[#FFF9F9] dark:bg-[#2D2424] text-[#554444] dark:text-[#FFE5E5] p-6 py-12 transition-colors duration-300">
       <div className="max-w-2xl mx-auto">
         
-        <div className="text-center mb-10">
-          <h1 className="text-4xl font-black text-blue-600 dark:text-blue-400 mb-2 tracking-tighter italic">MBTI WORLD</h1>
-          <p className="text-xs font-bold text-gray-400 tracking-[0.3em] uppercase">Version 1.9.1 - Global Tracking</p>
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-black text-[#FF9AA2] mb-3 italic drop-shadow-sm">포근한 광장</h1>
+          <p className="text-xs font-black text-pastel-blue tracking-[0.4em] uppercase">Warm & Cute Community</p>
         </div>
 
         {/* User Info / Logout */}
         {user && (
-          <div className="mb-6 flex justify-between items-center bg-white dark:bg-gray-900 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
+          <div className="mb-8 flex justify-between items-center bg-white/80 dark:bg-gray-800 p-5 rounded-[2rem] shadow-sm border-2 border-white dark:border-gray-700">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-pastel-blue flex items-center justify-center text-white font-black text-xl border-2 border-white">
                 {region.substring(0, 1)}
               </div>
               <div>
-                <span className="font-black text-sm block leading-tight">{userId}</span>
-                <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">Connected from {region}</span>
+                <span className="font-black text-sm block leading-tight text-gray-600 dark:text-gray-200">{userId}</span>
+                <span className="text-[10px] text-pastel-blue font-black uppercase tracking-widest">Connected from {region} 📍</span>
               </div>
             </div>
-            <button onClick={() => signOut(auth)} className="text-xs text-red-500 font-bold hover:underline">로그아웃</button>
+            <button onClick={() => signOut(auth)} className="text-xs text-pastel-pink font-black hover:underline px-4 py-2 bg-[#FFF0F3] rounded-full">로그아웃</button>
           </div>
         )}
 
         {/* Write Box */}
-        <div className="bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-xl border border-blue-100 dark:border-blue-900/30 mb-10 overflow-hidden relative">
+        <div className="bg-white/90 dark:bg-gray-800 p-8 rounded-[2.5rem] shadow-[0_15px_40px_rgba(0,0,0,0.03)] border-4 border-white dark:border-gray-700 mb-12 overflow-hidden relative group transition-all hover:shadow-xl">
           {!user && (
-            <div className="absolute inset-0 z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-[2px] flex items-center justify-center p-6 text-center">
+            <div className="absolute inset-0 z-10 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm flex items-center justify-center p-8 text-center">
               <div className="flex flex-col items-center">
-                <p className="text-sm font-bold text-gray-600 dark:text-gray-300 mb-4">로그인 후 자유롭게 소통해보세요!</p>
+                <p className="text-lg font-black text-gray-500 dark:text-gray-300 mb-6 italic">친구들과 포근한 이야기를 나눠보세요! ✨</p>
                 <button 
                   onClick={() => handleAction('login')}
-                  className="px-8 py-3 bg-blue-600 text-white rounded-xl font-black shadow-lg hover:scale-105 transition-all flex items-center gap-2"
+                  className="px-10 py-4 bg-pastel-blue text-white rounded-full font-black shadow-lg hover:scale-105 transition-all flex items-center gap-3 border-4 border-white"
                 >
-                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G" className="w-5 h-5 bg-white rounded-full p-0.5" />
-                  Google로 로그인
+                  <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G" className="w-6 h-6 bg-white rounded-full p-1" />
+                  Google 로그인
                 </button>
               </div>
             </div>
@@ -202,48 +202,48 @@ const CommunityPage = () => {
           <textarea 
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder="여기에 글을 작성해보세요!"
-            className="w-full h-24 bg-gray-50 dark:bg-gray-950 rounded-2xl p-4 outline-none dark:text-white resize-none border border-gray-100 dark:border-gray-800"
+            placeholder="포근한 이야기를 들려주세요... 🧸"
+            className="w-full h-32 bg-[#F0F7F9] dark:bg-gray-950 rounded-[1.8rem] p-6 outline-none dark:text-white resize-none border-2 border-transparent focus:border-pastel-blue transition-all font-medium text-lg placeholder:text-gray-300"
           />
-          <div className="flex justify-end mt-4">
+          <div className="flex justify-end mt-6">
             <button 
               onClick={() => handleAction('submit')}
-              className="px-6 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-black text-sm"
+              className="px-8 py-3 bg-pastel-pink text-white rounded-full font-black text-lg border-4 border-white shadow-md hover:scale-105 transition-all"
             >
-              등록하기
+              글 남기기 💌
             </button>
           </div>
         </div>
 
         {/* Posts List */}
-        <div className="space-y-6">
-          <h3 className="text-xl font-black px-2 flex items-center gap-2">
-            <span className="w-1.5 h-5 bg-blue-500 rounded-full"></span>
-            실시간 피드
+        <div className="space-y-8">
+          <h3 className="text-2xl font-black px-4 flex items-center gap-3 text-[#FF9AA2]">
+            <span className="w-2 h-6 bg-pastel-pink rounded-full"></span>
+            이야기 꾸러미
           </h3>
           {isLoading ? (
-            <div className="text-center py-20 text-gray-400 animate-pulse font-bold tracking-widest">CONNECTING...</div>
+            <div className="text-center py-24 text-pastel-blue animate-pulse font-black tracking-widest text-xl">포근하게 연결 중... ☁️</div>
           ) : posts.length === 0 ? (
-            <div className="py-20 text-center text-gray-400 font-medium italic">아직 게시글이 없습니다. 첫 글을 남겨보세요!</div>
+            <div className="py-24 text-center text-gray-400 font-black italic text-lg">아직 빈 주머니에요. 첫 소식을 담아보세요! 🎈</div>
           ) : (
             posts.map((post) => (
-              <div key={post.id} className="bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-md border border-gray-100 dark:border-gray-800 animate-fade-in hover:border-blue-300 dark:hover:border-blue-700 transition-all group">
-                <div className="flex justify-between items-center mb-4">
-                  <div className="flex gap-2">
-                    <span className="text-[10px] font-black px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-md uppercase">{post.mbti}</span>
-                    <span className="text-[10px] font-black px-2 py-1 bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 rounded-md uppercase">{post.region || 'Online'}</span>
+              <div key={post.id} className="bg-white/90 dark:bg-gray-800 p-8 rounded-[2.5rem] shadow-[0_10px_30px_rgba(0,0,0,0.02)] border-4 border-white dark:border-gray-700 animate-fade-in hover:border-pastel-blue dark:hover:border-blue-700 transition-all group">
+                <div className="flex justify-between items-center mb-6">
+                  <div className="flex gap-3">
+                    <span className="text-[11px] font-black px-3 py-1 bg-pastel-blue/20 text-pastel-blue rounded-full uppercase tracking-widest border border-pastel-blue/10">{post.mbti}</span>
+                    <span className="text-[11px] font-black px-3 py-1 bg-pastel-pink/20 text-pastel-pink rounded-full uppercase tracking-widest border border-pastel-pink/10">{post.region || 'Online'}</span>
                   </div>
-                  <span className="text-[10px] text-gray-400 font-bold">{formatTime(post.createdAt)}</span>
+                  <span className="text-[10px] text-gray-300 font-black">{formatTime(post.createdAt)}</span>
                 </div>
-                <p className="font-black text-xs text-blue-500 mb-2">{post.authorId}</p>
-                <p className="text-gray-700 dark:text-gray-300 text-lg mb-6 whitespace-pre-wrap leading-relaxed">{post.content}</p>
+                <p className="font-black text-xs text-pastel-blue mb-3 px-1">{post.authorId} 🐾</p>
+                <p className="text-gray-600 dark:text-gray-300 text-xl mb-8 whitespace-pre-wrap leading-relaxed font-medium px-1">{post.content}</p>
                 
-                <div className="flex gap-4 border-t border-gray-50 dark:border-gray-800 pt-4">
-                  <button onClick={() => updateDoc(doc(db, 'posts', post.id), { likes: increment(1) })} className="flex items-center gap-1.5 text-xs font-black text-gray-400 hover:text-red-500 transition-colors">
-                    ❤️ {post.likes}
+                <div className="flex gap-6 border-t-2 border-[#F0F7F9] dark:border-gray-700 pt-6">
+                  <button onClick={() => updateDoc(doc(db, 'posts', post.id), { likes: increment(1) })} className="flex items-center gap-2 text-sm font-black text-gray-400 hover:text-pastel-pink transition-colors">
+                    <span className="text-xl">❤️</span> {post.likes}
                   </button>
-                  <span className="flex items-center gap-1.5 text-xs font-black text-gray-400">
-                    💬 {post.comments?.length || 0}
+                  <span className="flex items-center gap-2 text-sm font-black text-gray-400">
+                    <span className="text-xl">💬</span> {post.comments?.length || 0}
                   </span>
                 </div>
               </div>

@@ -15,22 +15,22 @@ const GlobalNav = ({ darkMode, toggleTheme }) => {
   const isHome = location.pathname === '/';
 
   return (
-    <div className="fixed top-4 right-4 z-50 flex gap-3">
+    <div className="fixed top-6 right-6 z-50 flex gap-4">
       {!isHome && (
         <button
           onClick={() => navigate(-1)}
-          className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all transform hover:scale-110 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 flex items-center justify-center w-12 h-12"
+          className="p-3 rounded-full bg-pastel-blue dark:bg-gray-700 shadow-[0_4px_10px_rgba(174,198,207,0.5)] hover:shadow-[0_6px_15px_rgba(174,198,207,0.8)] transition-all transform hover:scale-110 border-2 border-white dark:border-gray-600 text-white flex items-center justify-center w-14 h-14"
           aria-label="Go Back"
         >
-          <span className="text-xl">⬅️</span>
+          <span className="text-2xl">🧸</span>
         </button>
       )}
       <button
         onClick={toggleTheme}
-        className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all transform hover:scale-110 border border-gray-200 dark:border-gray-700 flex items-center justify-center w-12 h-12"
+        className="p-3 rounded-full bg-pastel-pink dark:bg-gray-700 shadow-[0_4px_10px_rgba(255,209,220,0.5)] hover:shadow-[0_6px_15px_rgba(255,209,220,0.8)] transition-all transform hover:scale-110 border-2 border-white dark:border-gray-600 flex items-center justify-center w-14 h-14 text-white"
         aria-label="Toggle Dark Mode"
       >
-        <span className="text-xl">{darkMode ? '☀️' : '🌙'}</span>
+        <span className="text-2xl">{darkMode ? '☀️' : '🌙'}</span>
       </button>
     </div>
   );
@@ -73,7 +73,7 @@ function App() {
 
   return (
     <Router>
-      <div className="App min-h-dvh w-full overflow-x-hidden bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white transition-colors duration-300 relative">
+      <div className="App min-h-dvh w-full overflow-x-hidden bg-[#FFF9F9] text-[#554444] dark:bg-[#2D2424] dark:text-[#FFE5E5] transition-colors duration-300 relative">
         <GlobalNav darkMode={darkMode} toggleTheme={toggleTheme} />
         <AppRoutes />
       </div>

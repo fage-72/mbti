@@ -43,67 +43,69 @@ const DetailPage = () => {
   }, [slug]);
 
   return (
-    <div className="min-h-dvh bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300 flex flex-col items-center p-6 py-12">
+    <div className="min-h-dvh bg-[#FFF9F9] dark:bg-[#2D2424] text-[#554444] dark:text-[#FFE5E5] transition-colors duration-300 flex flex-col items-center p-6 py-12">
       <div className="max-w-3xl w-full">
         <button 
           onClick={() => navigate(-1)}
-          className="mb-8 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-300"
+          className="mb-8 px-5 py-2 bg-white dark:bg-gray-800 border-2 border-pastel-blue/20 rounded-full shadow-sm hover:bg-pastel-blue/10 transition-colors flex items-center gap-2 text-sm font-black text-pastel-blue"
         >
-          ← 이전으로 돌아가기
+          🧸 이전으로
         </button>
 
-        <header className="text-center mb-12">
-          <div className="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-4 py-1 rounded-full text-sm font-bold mb-4">
-            {mbti} × {keyword}
+        <header className="text-center mb-16">
+          <div className="inline-block bg-pastel-blue/10 dark:bg-blue-900/30 text-pastel-blue dark:text-blue-300 px-6 py-2 rounded-full text-sm font-black mb-6 border-2 border-pastel-blue/20">
+            {mbti} 🎀 {keyword}
           </div>
-          <h1 className="text-4xl md:text-5xl font-black mb-6 leading-tight">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-500">
+          <h1 className="text-4xl md:text-6xl font-black mb-8 leading-tight text-[#554444] dark:text-white">
+            <span className="text-pastel-pink">
               {mbti}
             </span>를 위한<br/>
             {keywordInfo.title}
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed font-light">
+          <p className="text-xl text-gray-400 dark:text-gray-400 leading-relaxed font-medium max-w-2xl mx-auto">
             {keywordInfo.desc}
           </p>
         </header>
 
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden p-8 md:p-12 mb-12">
-          <div className="flex items-center gap-4 mb-8 pb-8 border-b border-gray-100 dark:border-gray-700">
-            <span className="text-5xl md:text-6xl filter drop-shadow-md">
+        <div className="bg-white/90 dark:bg-gray-800 rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.03)] border-4 border-white dark:border-gray-700 overflow-hidden p-10 md:p-16 mb-12 relative">
+          <div className="absolute top-0 left-0 w-full h-3 bg-pastel-blue"></div>
+          
+          <div className="flex flex-col items-center text-center gap-6 mb-12 pb-12 border-b-2 border-[#F0F7F9] dark:border-gray-700">
+            <span className="text-7xl md:text-8xl filter drop-shadow-sm animate-bounce-slow">
               {keywordInfo.icon}
             </span>
             <div>
-              <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
-                {mbti}형의 특징
+              <h2 className="text-3xl font-black text-[#556677] dark:text-white mb-2">
+                {mbti}의 포근 포인트
               </h2>
-              <p className="text-gray-500 dark:text-gray-400">
-                기본 성향 분석
+              <p className="text-pastel-blue font-black tracking-widest text-sm">
+                BASIC ANALYSIS
               </p>
             </div>
           </div>
           
           <div className="prose dark:prose-invert max-w-none">
-            <p className="text-lg leading-loose mb-6">
-              <strong>{mbti}</strong> 유형은 {trait.job.split(' ')[0]} 성향을 가지고 있어, 
-              <strong>{keyword}</strong> 분야에서도 자신만의 독특한 방식을 선호합니다.
+            <p className="text-xl leading-loose mb-8 text-gray-500 font-medium">
+              <strong className="text-pastel-pink font-black">{mbti}</strong> 유형은 {trait.job.split(' ')[0]} 성향을 가지고 있어, 
+              <strong className="text-pastel-blue font-black">{keyword}</strong> 분야에서도 자신만의 독특한 방식을 선호합니다.
             </p>
-            <p className="text-lg leading-loose mb-6">
+            <p className="text-xl leading-loose mb-8 text-gray-500 font-medium">
               특히 {trait.learning.split(',')[0]} 방식으로 접근할 때 가장 큰 효율을 발휘하며,
               {trait.stress.split(',')[0]} 같은 상황을 피하는 것이 중요합니다.
             </p>
             
-            <div className="bg-blue-50 dark:bg-blue-900/20 p-6 rounded-2xl my-8 border-l-4 border-blue-500">
-              <h3 className="text-lg font-bold text-blue-800 dark:text-blue-300 mb-2">
-                💡 {mbti}를 위한 {keyword} 핵심 조언
+            <div className="bg-[#F0F7F9] dark:bg-blue-900/20 p-8 rounded-[2rem] my-10 border-4 border-white shadow-sm">
+              <h3 className="text-xl font-black text-pastel-blue mb-4 flex items-center gap-2">
+                💡 포근한 {keyword} 조언
               </h3>
-              <p className="text-blue-700 dark:text-blue-200">
-                당신의 강점인 <strong>"{trait.job.split(',')[0]}"</strong> 능력을 {keyword}에 접목해보세요.
+              <p className="text-gray-500 text-lg font-medium leading-relaxed">
+                당신의 강점인 <strong className="text-pastel-blue">"{trait.job.split(',')[0]}"</strong> 능력을 {keyword}에 접목해보세요.
                 남들보다 더 체계적이고 전략적으로 접근한다면, {keyword} 분야에서도 탁월한 성과를 낼 수 있습니다.
               </p>
             </div>
 
-            <p className="text-lg leading-loose">
-              더 자세한 정보나 커뮤니티 반응을 보고 싶다면 아래 버튼을 클릭하여 관련 정보를 탐색해보세요.
+            <p className="text-xl text-center text-gray-400 font-medium italic mt-12">
+              더 깊은 이야기가 궁금하다면 아래 버튼을 눌러보세요! ✨
             </p>
           </div>
         </div>
@@ -111,7 +113,7 @@ const DetailPage = () => {
         <div className="text-center">
           <button
             onClick={() => window.open(`https://www.google.com/search?q=${mbti}+${keyword}`, '_blank')}
-            className="w-full md:w-auto px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-2 mx-auto"
+            className="w-full md:w-auto px-12 py-5 bg-pastel-pink text-white rounded-full font-black text-xl shadow-lg hover:shadow-[0_8px_25px_rgba(255,154,162,0.4)] hover:scale-[1.05] transition-all flex items-center justify-center gap-3 mx-auto border-4 border-white"
           >
             🔍 {mbti} {keyword} 더 알아보기
           </button>

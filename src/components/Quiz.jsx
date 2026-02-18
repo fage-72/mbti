@@ -73,26 +73,29 @@ const Quiz = ({ onFinish }) => {
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-dvh w-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white p-6 transition-colors duration-300">
+    <div className="flex flex-col items-center justify-center min-h-dvh w-full bg-[#FFF9F9] dark:bg-[#2D2424] text-[#554444] dark:text-[#FFE5E5] p-6 transition-colors duration-300">
       <div className="w-full max-w-xl">
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mb-8 transition-colors duration-300">
+        {/* Progress Bar */}
+        <div className="w-full bg-white dark:bg-gray-700 rounded-full h-4 mb-12 shadow-inner border-2 border-pastel-pink/20 overflow-hidden">
           <div
-            className="bg-gradient-to-r from-blue-500 to-blue-600 h-2.5 rounded-full transition-all duration-500 ease-out shadow-sm"
+            className="bg-pastel-pink h-full rounded-full transition-all duration-700 ease-out shadow-[0_0_10px_rgba(255,209,220,0.8)]"
             style={{ width: `${progress}%` }}
           ></div>
         </div>
         
-        <h2 className="text-2xl md:text-3xl font-bold mb-10 text-center min-h-[100px] flex items-center justify-center leading-snug drop-shadow-sm transition-colors duration-300">
-          <span className="text-blue-600 dark:text-blue-400 mr-2">Q{currentQuestion.id}.</span>
-          {currentQuestion.text}
-        </h2>
+        <div className="bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-[2.5rem] p-8 mb-10 shadow-[0_10px_30px_rgba(0,0,0,0.05)] border-2 border-white dark:border-gray-700">
+          <h2 className="text-2xl md:text-3xl font-black text-center min-h-[80px] flex items-center justify-center leading-snug text-[#FF9AA2]">
+            <span className="text-pastel-blue mr-3 italic">Step {currentQuestionIndex + 1}.</span>
+            {currentQuestion.text}
+          </h2>
+        </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-5">
           {currentQuestion.options.map((option, index) => (
             <button
               key={index}
               onClick={() => handleAnswer(option)}
-              className="w-full py-5 px-8 bg-white dark:bg-gray-800 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-2xl text-lg md:text-xl text-left transition-all duration-200 border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500 shadow-sm hover:shadow-md font-medium text-gray-700 dark:text-gray-200"
+              className="w-full py-6 px-8 bg-white dark:bg-gray-800 hover:bg-pastel-blue/10 dark:hover:bg-gray-700 rounded-[1.8rem] text-lg md:text-xl text-center transition-all duration-300 border-2 border-white dark:border-gray-700 hover:border-pastel-blue dark:hover:border-blue-400 shadow-[0_4px_15px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_25px_rgba(174,198,207,0.3)] font-bold text-[#665555] dark:text-gray-200"
             >
               {option.text}
             </button>

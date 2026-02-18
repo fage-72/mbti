@@ -3,14 +3,9 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'GmarketSansMedium', 'Pretendard-Regular', Inter, system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -19,22 +14,23 @@ body {
   width: 100%;
   min-height: 100dvh;
   overflow-x: hidden;
-  background-color: #f3f4f6; /* gray-100 (Light Mode Default) */
-  color: #111827; /* gray-900 (Light Mode Default) */
+  background-color: #FFF9F9; /* 매우 연한 핑크 크림색 */
+  color: #554444; /* 부드러운 다크 브라운 (텍스트 가독성) */
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-#root {
-  width: 100%;
-  min-height: 100dvh;
-}
-
+/* 둥글둥글한 버튼 느낌 */
 button {
-  cursor: pointer;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Apply Dark Mode Styles when .dark class is present on html or body */
+button:active {
+  transform: scale(0.95);
+}
+
 .dark body {
-  background-color: #111827; /* gray-900 */
-  color: rgba(255, 255, 255, 0.87);
+  background-color: #2D2424; /* 어두운 브라운/블랙 */
+  color: #FFE5E5;
 }
