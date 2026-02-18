@@ -4,6 +4,7 @@ import { questions } from '../data/questions';
 const Quiz = ({ onFinish }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
+  const [stats, setStats] = useState({ strategy: 0, focus: 0, risk: 0 });
 
   const handleAnswer = (value) => {
     const newAnswers = { ...answers, [currentQuestionIndex]: value };

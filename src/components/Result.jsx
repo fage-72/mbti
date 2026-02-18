@@ -5,7 +5,7 @@ import { newsData } from '../data/newsData';
 import { fashionData } from '../data/fashionData';
 import { mbtiTraits } from '../data/mbtiTraits';
 
-const Result = ({ mbti, onReset }) => {
+const Result = ({ mbti, stats = { strategy: 50, focus: 50, risk: 50 }, level = 1, onReset }) => {
   const navigate = useNavigate();
   const feedRef = useRef(null);
   const storyRef = useRef(null);
@@ -13,6 +13,17 @@ const Result = ({ mbti, onReset }) => {
   const resultData = newsData[mbti] || newsData['INFP']; // Default if not found
   const fashion = fashionData[mbti] || fashionData['INFP'];
   const traits = mbtiTraits[mbti] || mbtiTraits['INFP'];
+
+  const getLevelTitle = (lvl) => {
+    switch(lvl) {
+      case 4: return "마스터 (Master)";
+      case 3: return "전략가 (Strategist)";
+      case 2: return "분석가 (Analyst)";
+      default: return "탐색자 (Explorer)";
+    }
+  };
+
+  const levelTitle = getLevelTitle(level);
 
   const handleTraitClick = (category) => {
     let keyword = '직업';
@@ -45,7 +56,7 @@ const Result = ({ mbti, onReset }) => {
   };
 
   const handleCopyTwitter = () => {
-    const text = `[${mbti}] ${resultData.headline} ✨\n\n나만의 AI 뉴스 & 스타일 큐레이터 결과 보러가기 👇\nhttps://fage-72.github.io/mbti/ \n\n#MBTI #뉴스큐레이터 #AI`;
+    const text = `[Lv.${level} ${levelTitle}] ${mbti} - ${resultData.headline} ✨\n\n전략: ${stats.strategy} / 집중: ${stats.focus} / 리스크: ${stats.risk}\n\n나만의 AI 뉴스 & 스타일 큐레이터 결과 보러가기 👇\nhttps://fage-72.github.io/mbti/ \n\n#MBTI #뉴스큐레이터 #AI`;
     navigator.clipboard.writeText(text).then(() => {
       alert('트위터용 요약 텍스트가 복사되었습니다! 🐦');
     });
@@ -56,16 +67,53 @@ const Result = ({ mbti, onReset }) => {
       <div className="max-w-6xl w-full flex flex-col gap-12">
         
         {/* Header Section */}
-        <div className="text-center">
+        <div className="text-center relative">
+          <div className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-sm md:text-base font-bold px-4 py-1 rounded-full mb-4 shadow-lg animate-bounce">
+            Lv.{level} {levelTitle}
+          </div>
           <p className="text-gray-500 dark:text-gray-400 text-sm font-bold uppercase tracking-widest mb-3">
             당신의 MBTI 유형은
           </p>
           <h1 className="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-500 mb-6 drop-shadow-sm">
             {mbti}
           </h1>
-          <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 font-light">
+          <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 font-light mb-8">
             <span className="font-bold text-blue-600 dark:text-blue-400">{resultData.category}</span> 분야의 뉴스에 관심이 많으시군요!
           </p>
+
+          {/* Stats Breakdown */}
+          <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-lg border border-gray-100 dark:border-gray-700">
+            <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4 text-left">📊 능력치 분석</h3>
+            <div className="space-y-4">
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="font-medium text-blue-600 dark:text-blue-400">전략 (Strategy)</span>
+                  <span className="font-bold text-gray-700 dark:text-gray-300">{stats.strategy}</span>
+                </div>
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                  <div className="bg-blue-500 h-2.5 rounded-full transition-all duration-1000" style={{ width: `${stats.strategy}%` }}></div>
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="font-medium text-purple-600 dark:text-purple-400">집중력 (Focus)</span>
+                  <span className="font-bold text-gray-700 dark:text-gray-300">{stats.focus}</span>
+                </div>
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                  <div className="bg-purple-500 h-2.5 rounded-full transition-all duration-1000" style={{ width: `${stats.focus}%` }}></div>
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="font-medium text-pink-600 dark:text-pink-400">모험심 (Risk)</span>
+                  <span className="font-bold text-gray-700 dark:text-gray-300">{stats.risk}</span>
+                </div>
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                  <div className="bg-pink-500 h-2.5 rounded-full transition-all duration-1000" style={{ width: `${stats.risk}%` }}></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Share Section Buttons */}
@@ -99,14 +147,23 @@ const Result = ({ mbti, onReset }) => {
              <div className="absolute bottom-[-20%] right-[-20%] w-[80%] h-[80%] bg-purple-500/20 rounded-full blur-[200px]"></div>
              
              <div className="relative z-10 text-center border-4 border-white/20 p-20 rounded-[3rem] backdrop-blur-sm w-full h-full flex flex-col justify-center items-center">
-               <span className="text-blue-400 text-4xl font-bold tracking-[0.3em] mb-10 block">MY MBTI TYPE</span>
+               <span className="text-yellow-400 text-5xl font-bold mb-8 block drop-shadow-lg">Lv.{level} {levelTitle}</span>
+               <span className="text-blue-400 text-4xl font-bold tracking-[0.3em] mb-4 block">MY MBTI TYPE</span>
                <h1 className="text-[12rem] font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 drop-shadow-2xl mb-10 leading-none">
                  {mbti}
                </h1>
-               <p className="text-5xl text-white font-bold mb-8 leading-tight max-w-4xl">
-                 "{resultData.headline}"
-               </p>
-               <div className="flex gap-4 mt-8">
+               <div className="w-full max-w-2xl bg-black/30 rounded-3xl p-8 mb-8 backdrop-blur-md">
+                 <div className="flex justify-between text-3xl text-white mb-4">
+                   <span>전략</span><span className="font-bold text-blue-300">{stats.strategy}</span>
+                 </div>
+                 <div className="flex justify-between text-3xl text-white mb-4">
+                   <span>집중</span><span className="font-bold text-purple-300">{stats.focus}</span>
+                 </div>
+                 <div className="flex justify-between text-3xl text-white">
+                   <span>모험</span><span className="font-bold text-pink-300">{stats.risk}</span>
+                 </div>
+               </div>
+               <div className="flex gap-4 mt-4">
                  <span className="bg-white/10 px-6 py-3 rounded-full text-2xl text-blue-200">#{resultData.category}</span>
                  <span className="bg-white/10 px-6 py-3 rounded-full text-2xl text-purple-200">#{fashion.style}</span>
                </div>
@@ -123,20 +180,35 @@ const Result = ({ mbti, onReset }) => {
              <div className="absolute top-[10%] left-[50%] -translate-x-1/2 w-[120%] h-[40%] bg-blue-600/20 rounded-full blur-[150px]"></div>
 
              <div className="relative z-10 w-full flex flex-col items-center h-full">
-               <div className="mt-40 mb-20 text-4xl text-gray-400 tracking-[0.5em] font-light">AI NEWS CURATOR</div>
+               <div className="mt-40 mb-10 text-4xl text-gray-400 tracking-[0.5em] font-light">AI NEWS CURATOR</div>
                
+               <div className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-4xl font-black px-12 py-4 rounded-full mb-10 shadow-2xl">
+                 Lv.{level} {levelTitle}
+               </div>
+
                <h1 className="text-[12rem] font-black text-white mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
                  {mbti}
                </h1>
                
-               <div className="w-full bg-white/5 border border-white/10 rounded-[3rem] p-16 backdrop-blur-md mb-16 shadow-2xl">
-                 <h2 className="text-6xl font-bold text-blue-300 mb-8 tracking-tight">AI Headline</h2>
-                 <p className="text-5xl leading-[1.4] text-gray-100 font-light">
-                   {resultData.summary}
-                 </p>
+               <div className="w-full bg-white/5 border border-white/10 rounded-[3rem] p-16 backdrop-blur-md mb-12 shadow-2xl">
+                 <h2 className="text-6xl font-bold text-blue-300 mb-12 tracking-tight">Stats Analysis</h2>
+                 <div className="space-y-8">
+                   <div>
+                     <div className="flex justify-between text-4xl text-gray-200 mb-2"><span>Strategy</span><span className="font-bold">{stats.strategy}</span></div>
+                     <div className="w-full bg-gray-700 h-4 rounded-full"><div className="bg-blue-500 h-4 rounded-full" style={{ width: `${stats.strategy}%` }}></div></div>
+                   </div>
+                   <div>
+                     <div className="flex justify-between text-4xl text-gray-200 mb-2"><span>Focus</span><span className="font-bold">{stats.focus}</span></div>
+                     <div className="w-full bg-gray-700 h-4 rounded-full"><div className="bg-purple-500 h-4 rounded-full" style={{ width: `${stats.focus}%` }}></div></div>
+                   </div>
+                   <div>
+                     <div className="flex justify-between text-4xl text-gray-200 mb-2"><span>Risk</span><span className="font-bold">{stats.risk}</span></div>
+                     <div className="w-full bg-gray-700 h-4 rounded-full"><div className="bg-pink-500 h-4 rounded-full" style={{ width: `${stats.risk}%` }}></div></div>
+                   </div>
+                 </div>
                </div>
 
-               <div className="w-full bg-white/5 border border-white/10 rounded-[3rem] p-16 backdrop-blur-md shadow-2xl">
+               <div className="w-full bg-white/5 border border-white/10 rounded-[3rem] p-16 backdrop-blur-md flex-grow mb-20 shadow-2xl">
                  <h2 className="text-6xl font-bold text-purple-300 mb-12 tracking-tight">Key Traits</h2>
                  <div className="space-y-12">
                    <div className="flex items-center gap-10">
@@ -147,16 +219,12 @@ const Result = ({ mbti, onReset }) => {
                      <span className="text-8xl">💼</span>
                      <span className="text-5xl font-medium">{traits.job.split(',')[0]}</span>
                    </div>
-                   <div className="flex items-center gap-10">
-                     <span className="text-8xl">✈️</span>
-                     <span className="text-5xl font-medium">{traits.travel.split(',')[0]}</span>
-                   </div>
                  </div>
                </div>
 
                <div className="mt-auto mb-20">
-                 <span className="text-4xl text-gray-500 font-light tracking-widest">
-                   WWW.MBTI-NEWS.APP
+                 <span className="text-3xl text-gray-400 font-light tracking-widest">
+                   CHECK FULL REPORT 🔗
                  </span>
                </div>
              </div>
