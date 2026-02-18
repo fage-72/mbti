@@ -46,17 +46,18 @@ const Quiz = ({ onFinish }) => {
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-6">
+    <div className="flex flex-col items-center justify-center min-h-dvh w-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white p-6 transition-colors duration-300">
       <div className="w-full max-w-xl">
-        <div className="w-full bg-gray-700 rounded-full h-2.5 mb-6">
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mb-8 transition-colors duration-300">
           <div
-            className="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
+            className="bg-gradient-to-r from-blue-500 to-blue-600 h-2.5 rounded-full transition-all duration-500 ease-out shadow-sm"
             style={{ width: `${progress}%` }}
           ></div>
         </div>
         
-        <h2 className="text-2xl font-bold mb-8 text-center min-h-[80px] flex items-center justify-center">
-          Q{currentQuestion.id}. {currentQuestion.text}
+        <h2 className="text-2xl md:text-3xl font-bold mb-10 text-center min-h-[100px] flex items-center justify-center leading-snug drop-shadow-sm transition-colors duration-300">
+          <span className="text-blue-600 dark:text-blue-400 mr-2">Q{currentQuestion.id}.</span>
+          {currentQuestion.text}
         </h2>
 
         <div className="flex flex-col gap-4">
@@ -64,7 +65,7 @@ const Quiz = ({ onFinish }) => {
             <button
               key={index}
               onClick={() => handleAnswer(option.value)}
-              className="w-full py-4 px-6 bg-gray-800 hover:bg-blue-600 rounded-xl text-lg text-left transition-colors border border-gray-700 hover:border-blue-500"
+              className="w-full py-5 px-8 bg-white dark:bg-gray-800 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-2xl text-lg md:text-xl text-left transition-all duration-200 border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500 shadow-sm hover:shadow-md font-medium text-gray-700 dark:text-gray-200"
             >
               {option.text}
             </button>
