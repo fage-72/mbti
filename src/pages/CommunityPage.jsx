@@ -21,24 +21,19 @@ const CommunityPage = () => {
   // 1. 유저 상태 감지 (Firebase Auth)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (userMbti === 'GUEST' && !currentUser) {
-        alert('MBTI 테스트를 먼저 완료해주세요!');
-        navigate('/');
-        return;
-      }
-      
       if (currentUser) {
-        const customId = `${userMbti}-${currentUser.displayName?.split(' ')[0] || '익명'}`;
+        // Use stored MBTI or default to GUEST if somehow missing
+        const currentMbti = userMbti !== 'GUEST' ? userMbti : (localStorage.getItem('userMbti') || 'GUEST');
+        const customId = `${currentMbti}-${currentUser.displayName?.split(' ')[0] || '익명'}`;
         setUserId(customId);
         setUser(currentUser);
-        localStorage.setItem('userMbti', userMbti);
       } else {
         setUser(null);
         setUserId('');
       }
     });
     return () => unsubscribe();
-  }, [userMbti, navigate]);
+  }, [userMbti]);
 
   // 2. 게시글 실시간 불러오기
   useEffect(() => {
@@ -55,11 +50,16 @@ const CommunityPage = () => {
 
   // 3. 구글 로그인
   const handleGoogleLogin = async () => {
+    if (userMbti === 'GUEST' && !localStorage.getItem('userMbti')) {
+      alert('본인의 성향(MBTI) 기반 아이디 생성을 위해 테스트를 먼저 진행해주세요! ✨');
+      navigate('/');
+      return;
+    }
     try {
       await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.error("Login Error:", error);
-      alert('로그인에 실패했습니다.');
+      alert('로그인에 실패했습니다. 팝업 차단 여부를 확인해주세요.');
     }
   };
 
