@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { auth, googleProvider, db } from '../firebase';
-import { signInWithPopup, onAuthStateChanged, signOut } from 'firebase/auth';
+import { 
+  signInWithPopup, signInWithRedirect, onAuthStateChanged, 
+  signOut, getRedirectResult 
+} from 'firebase/auth';
 import { 
   collection, addDoc, query, orderBy, onSnapshot, 
-  serverTimestamp, updateDoc, doc, getDoc, setDoc, runTransaction, increment 
+  serverTimestamp, updateDoc, doc, runTransaction, increment 
 } from 'firebase/firestore';
 
 const CommunityPage = () => {
@@ -19,35 +22,38 @@ const CommunityPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [region, setRegion] = useState('Unknown');
 
-  // 1. 접속 지역 정보 가져오기 (IP 기반)
+  // 1. 접속 지역 정보 가져오기
   useEffect(() => {
     const fetchRegion = async () => {
       try {
         const res = await fetch('https://ipapi.co/json/');
         const data = await res.json();
-        // 도시 이름을 가져오되, 없으면 국가 코드로 대체
         setRegion(data.city || data.region || 'Remote');
       } catch (e) {
-        console.error("Region fetch error", e);
         setRegion('Online');
       }
     };
     fetchRegion();
   }, []);
 
-  // 2. 유저 상태 관리 및 고유 ID 생성 (MBTI-지역-순번)
+  // 2. 모바일 리다이렉트 결과 처리
+  useEffect(() => {
+    getRedirectResult(auth).catch((error) => {
+      console.error("Redirect Login Error", error);
+    });
+  }, []);
+
+  // 3. 유저 상태 관리 및 ID 생성
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
         localStorage.setItem('userMbti', userMbti);
 
-        // 이미 생성된 ID가 있는지 확인 (세션 유지)
         const savedCustomId = localStorage.getItem(`customId_${currentUser.uid}`);
         if (savedCustomId) {
           setUserId(savedCustomId);
         } else {
-          // 순번 부여 로직 (Firestore Transaction)
           const counterKey = `${userMbti}-${region}`;
           const counterRef = doc(db, 'counters', counterKey);
 
@@ -55,7 +61,7 @@ const CommunityPage = () => {
             const newCount = await runTransaction(db, async (transaction) => {
               const counterDoc = await transaction.get(counterRef);
               if (!counterDoc.exists()) {
-                transaction.set(counterRef, { count: 589 }); // Start from 589
+                transaction.set(counterRef, { count: 589 });
                 return 589;
               } else {
                 const count = counterDoc.data().count + 1;
@@ -69,7 +75,6 @@ const CommunityPage = () => {
             setUserId(finalId);
             localStorage.setItem(`customId_${currentUser.uid}`, finalId);
           } catch (e) {
-            console.error("ID Generation Error", e);
             setUserId(`${userMbti}-${region}-NEW`);
           }
         }
@@ -81,7 +86,7 @@ const CommunityPage = () => {
     return () => unsubscribe();
   }, [userMbti, region]);
 
-  // 3. 게시글 동기화
+  // 4. 게시글 동기화
   useEffect(() => {
     setIsLoading(true);
     const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'));
@@ -100,9 +105,15 @@ const CommunityPage = () => {
         return;
       }
       try {
-        await signInWithPopup(auth, googleProvider);
+        // 모바일 기기 감지
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+          await signInWithRedirect(auth, googleProvider);
+        } else {
+          await signInWithPopup(auth, googleProvider);
+        }
       } catch (e) {
-        alert('로그인에 실패했습니다.');
+        alert('로그인에 실패했습니다. 브라우저의 팝업 차단 설정을 확인해주세요.');
       }
       return;
     }
@@ -139,12 +150,11 @@ const CommunityPage = () => {
         
         <div className="text-center mb-10">
           <h1 className="text-4xl font-black text-blue-600 dark:text-blue-400 mb-2 tracking-tighter italic">MBTI WORLD</h1>
-          <p className="text-xs font-bold text-gray-400 tracking-[0.3em] uppercase">Version 1.8 - Global Tracking</p>
+          <p className="text-xs font-bold text-gray-400 tracking-[0.3em] uppercase">Version 1.9 - Mobile Optimized</p>
         </div>
 
-        {/* User Status */}
         {user && (
-          <div className="mb-6 flex justify-between items-center bg-white dark:bg-gray-900 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 animate-fade-in">
+          <div className="mb-6 flex justify-between items-center bg-white dark:bg-gray-900 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
                 {region.substring(0, 1)}
@@ -158,18 +168,17 @@ const CommunityPage = () => {
           </div>
         )}
 
-        {/* Write Box */}
         <div className="bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-xl border border-blue-100 dark:border-blue-900/30 mb-10 overflow-hidden relative">
           {!user && (
             <div className="absolute inset-0 z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-[2px] flex items-center justify-center p-6 text-center">
               <div className="flex flex-col items-center">
-                <p className="text-sm font-bold text-gray-600 dark:text-gray-300 mb-4">현재 접속 지역: <span className="text-blue-500">{region}</span></p>
+                <p className="text-sm font-bold text-gray-600 dark:text-gray-300 mb-4">로그인 후 자유롭게 소통해보세요!</p>
                 <button 
                   onClick={() => handleAction('login')}
                   className="px-8 py-3 bg-blue-600 text-white rounded-xl font-black shadow-lg hover:scale-105 transition-all flex items-center gap-2"
                 >
                   <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G" className="w-5 h-5 bg-white rounded-full p-0.5" />
-                  Google로 로그인
+                  Google로 시작하기
                 </button>
               </div>
             </div>
@@ -177,27 +186,26 @@ const CommunityPage = () => {
           <textarea 
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder="같은 지역, 같은 MBTI 친구들에게 말을 걸어보세요!"
+            placeholder="여기에 글을 작성해보세요!"
             className="w-full h-24 bg-gray-50 dark:bg-gray-950 rounded-2xl p-4 outline-none dark:text-white resize-none border border-gray-100 dark:border-gray-800"
           />
           <div className="flex justify-end mt-4">
             <button 
               onClick={() => handleAction('submit')}
-              className="px-6 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-black text-sm active:scale-95 transition-transform"
+              className="px-6 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-black text-sm"
             >
               등록하기
             </button>
           </div>
         </div>
 
-        {/* Posts List */}
         <div className="space-y-6">
           <h3 className="text-xl font-black px-2 flex items-center gap-2">
             <span className="w-1.5 h-5 bg-blue-500 rounded-full"></span>
             실시간 피드
           </h3>
           {isLoading ? (
-            <div className="text-center py-20 text-gray-400 animate-pulse font-bold tracking-widest">CONNECTING TO MBTI WORLD...</div>
+            <div className="text-center py-20 text-gray-400 animate-pulse font-bold tracking-widest">CONNECTING...</div>
           ) : (
             posts.map((post) => (
               <div key={post.id} className="bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-md border border-gray-100 dark:border-gray-800 animate-fade-in hover:border-blue-300 dark:hover:border-blue-700 transition-all group">
@@ -208,7 +216,7 @@ const CommunityPage = () => {
                   </div>
                   <span className="text-[10px] text-gray-400 font-bold">{formatTime(post.createdAt)}</span>
                 </div>
-                <p className="font-black text-xs text-blue-500 mb-2 group-hover:text-blue-400 transition-colors">{post.authorId}</p>
+                <p className="font-black text-xs text-blue-500 mb-2">{post.authorId}</p>
                 <p className="text-gray-700 dark:text-gray-300 text-lg mb-6 whitespace-pre-wrap leading-relaxed">{post.content}</p>
                 
                 <div className="flex gap-4 border-t border-gray-50 dark:border-gray-800 pt-4">
