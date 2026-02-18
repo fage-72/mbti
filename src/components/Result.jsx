@@ -1,31 +1,29 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { newsData } from '../data/newsData';
 import { fashionData } from '../data/fashionData';
 import { mbtiTraits } from '../data/mbtiTraits';
 
 const Result = ({ mbti, onReset }) => {
+  const navigate = useNavigate();
   const resultData = newsData[mbti] || newsData['INFP']; // Default if not found
   const fashion = fashionData[mbti] || fashionData['INFP'];
   const traits = mbtiTraits[mbti] || mbtiTraits['INFP'];
 
-  const getLink = (category, keyword) => {
-    const query = encodeURIComponent(keyword);
+  const handleTraitClick = (category) => {
+    let keyword = '직업';
     switch (category) {
-      case 'job': return `https://www.wanted.co.kr/search?query=${query}`; // 직업 -> 원티드
-      case 'learning': return `https://www.inflearn.com/courses?s=${query}`; // 학습 -> 인프런
-      case 'content': return `https://www.youtube.com/results?search_query=${query}`; // 콘텐츠 -> 유튜브
-      case 'ui': return `https://www.pinterest.co.kr/search/pins/?q=${query} UI Design`; // UI -> 핀터레스트
-      case 'shopping': return `https://search.danawa.com/dsearch.php?k1=${query}`; // 쇼핑 -> 다나와
-      case 'travel': return `https://www.myrealtrip.com/search?q=${query}`; // 여행 -> 마이리얼트립
-      case 'relationship': return `https://www.google.com/search?q=${query} 인간관계`; // 관계 -> 구글
-      case 'stress': return `https://www.youtube.com/results?search_query=${query} 힐링`; // 스트레스 -> 유튜브
-      default: return `https://www.google.com/search?q=${query}`;
+      case 'job': keyword = '직업'; break;
+      case 'learning': keyword = '공부법'; break;
+      case 'content': keyword = '취미'; break;
+      case 'ui': keyword = 'AI'; break;
+      case 'shopping': keyword = '쇼핑'; break;
+      case 'travel': keyword = '여행'; break;
+      case 'relationship': keyword = '인간관계'; break;
+      case 'stress': keyword = '스트레스'; break;
+      default: keyword = '직업';
     }
-  };
-
-  const handleTraitClick = (category, content) => {
-    const url = getLink(category, content);
-    window.open(url, '_blank');
+    navigate(`/${mbti}-${keyword}`);
   };
 
   return (
@@ -113,48 +111,48 @@ const Result = ({ mbti, onReset }) => {
             🧐 {mbti}의 라이프스타일 분석
           </h3>
           <p className="text-center text-gray-500 dark:text-gray-400 mb-10 -mt-8 text-sm font-medium">
-            각 카드를 클릭하면 관련 커뮤니티나 정보 사이트로 이동합니다 🔗
+            각 카드를 클릭하면 상세 분석 페이지로 이동합니다 🔍
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <TraitCard 
               title="직업·역할" icon="💼" content={traits.job} 
               color="border-blue-200 bg-blue-50/50 hover:bg-blue-100 dark:border-blue-500/30 dark:bg-blue-900/20 dark:hover:bg-blue-900/40" 
-              onClick={() => handleTraitClick('job', traits.job)}
+              onClick={() => handleTraitClick('job')}
             />
             <TraitCard 
               title="학습 방식" icon="📚" content={traits.learning} 
               color="border-green-200 bg-green-50/50 hover:bg-green-100 dark:border-green-500/30 dark:bg-green-900/20 dark:hover:bg-green-900/40" 
-              onClick={() => handleTraitClick('learning', traits.learning)}
+              onClick={() => handleTraitClick('learning')}
             />
             <TraitCard 
               title="콘텐츠 소비" icon="📺" content={traits.content} 
               color="border-red-200 bg-red-50/50 hover:bg-red-100 dark:border-red-500/30 dark:bg-red-900/20 dark:hover:bg-red-900/40" 
-              onClick={() => handleTraitClick('content', traits.content)}
+              onClick={() => handleTraitClick('content')}
             />
             <TraitCard 
               title="선호 UI/UX" icon="📱" content={traits.ui} 
               color="border-yellow-200 bg-yellow-50/50 hover:bg-yellow-100 dark:border-yellow-500/30 dark:bg-yellow-900/20 dark:hover:bg-yellow-900/40" 
-              onClick={() => handleTraitClick('ui', traits.ui)}
+              onClick={() => handleTraitClick('ui')}
             />
             <TraitCard 
               title="쇼핑 스타일" icon="🛒" content={traits.shopping} 
               color="border-pink-200 bg-pink-50/50 hover:bg-pink-100 dark:border-pink-500/30 dark:bg-pink-900/20 dark:hover:bg-pink-900/40" 
-              onClick={() => handleTraitClick('shopping', traits.shopping)}
+              onClick={() => handleTraitClick('shopping')}
             />
             <TraitCard 
               title="여행 스타일" icon="✈️" content={traits.travel} 
               color="border-indigo-200 bg-indigo-50/50 hover:bg-indigo-100 dark:border-indigo-500/30 dark:bg-indigo-900/20 dark:hover:bg-indigo-900/40" 
-              onClick={() => handleTraitClick('travel', traits.travel)}
+              onClick={() => handleTraitClick('travel')}
             />
             <TraitCard 
               title="인간관계" icon="🤝" content={traits.relationship} 
               color="border-orange-200 bg-orange-50/50 hover:bg-orange-100 dark:border-orange-500/30 dark:bg-orange-900/20 dark:hover:bg-orange-900/40" 
-              onClick={() => handleTraitClick('relationship', traits.relationship)}
+              onClick={() => handleTraitClick('relationship')}
             />
             <TraitCard 
               title="스트레스 해소" icon="🧘" content={traits.stress} 
               color="border-teal-200 bg-teal-50/50 hover:bg-teal-100 dark:border-teal-500/30 dark:bg-teal-900/20 dark:hover:bg-teal-900/40" 
-              onClick={() => handleTraitClick('stress', traits.stress)}
+              onClick={() => handleTraitClick('stress')}
             />
           </div>
         </div>
