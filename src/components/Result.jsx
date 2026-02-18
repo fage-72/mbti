@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import html2canvas from 'html2canvas';
 import { newsData } from '../data/newsData';
 import { fashionData } from '../data/fashionData';
 import { mbtiTraits } from '../data/mbtiTraits';
 
 const Result = ({ mbti, onReset }) => {
   const navigate = useNavigate();
+  const feedRef = useRef(null);
+  const storyRef = useRef(null);
+
   const resultData = newsData[mbti] || newsData['INFP']; // Default if not found
   const fashion = fashionData[mbti] || fashionData['INFP'];
   const traits = mbtiTraits[mbti] || mbtiTraits['INFP'];
@@ -26,6 +30,27 @@ const Result = ({ mbti, onReset }) => {
     navigate(`/${mbti}-${keyword}`);
   };
 
+  const handleDownloadImage = async (ref, filename) => {
+    if (ref.current) {
+      const canvas = await html2canvas(ref.current, {
+        scale: 2, // High resolution
+        backgroundColor: null, // Keep transparency if needed, or set specific color
+        useCORS: true, // Allow cross-origin images
+      });
+      const link = document.createElement('a');
+      link.download = `${filename}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+  };
+
+  const handleCopyTwitter = () => {
+    const text = `[${mbti}] ${resultData.headline} ✨\n\n나만의 AI 뉴스 & 스타일 큐레이터 결과 보러가기 👇\nhttps://fage-72.github.io/mbti/ \n\n#MBTI #뉴스큐레이터 #AI`;
+    navigator.clipboard.writeText(text).then(() => {
+      alert('트위터용 요약 텍스트가 복사되었습니다! 🐦');
+    });
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-dvh bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white p-6 py-12 transition-colors duration-300">
       <div className="max-w-6xl w-full flex flex-col gap-12">
@@ -41,6 +66,101 @@ const Result = ({ mbti, onReset }) => {
           <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 font-light">
             <span className="font-bold text-blue-600 dark:text-blue-400">{resultData.category}</span> 분야의 뉴스에 관심이 많으시군요!
           </p>
+        </div>
+
+        {/* Share Section Buttons */}
+        <div className="flex flex-wrap justify-center gap-4 mb-8">
+          <button
+            onClick={() => handleDownloadImage(feedRef, `${mbti}_feed`)}
+            className="px-6 py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2"
+          >
+            📸 인스타 피드 저장
+          </button>
+          <button
+            onClick={() => handleDownloadImage(storyRef, `${mbti}_story`)}
+            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2"
+          >
+            📱 스토리 저장
+          </button>
+          <button
+            onClick={handleCopyTwitter}
+            className="px-6 py-3 bg-sky-500 text-white rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center gap-2"
+          >
+            🐦 트위터 요약 복사
+          </button>
+        </div>
+
+        {/* Hidden Elements for Image Generation */}
+        <div className="absolute left-[-9999px] top-[-9999px]">
+          {/* 1. Instagram Feed (Square 1080x1080) */}
+          <div ref={feedRef} className="w-[1080px] h-[1080px] bg-gray-900 flex flex-col items-center justify-center p-20 relative overflow-hidden">
+             <div className="absolute inset-0 bg-gradient-to-br from-blue-900/50 via-purple-900/50 to-pink-900/50"></div>
+             <div className="absolute top-[-20%] left-[-20%] w-[80%] h-[80%] bg-blue-500/20 rounded-full blur-[200px]"></div>
+             <div className="absolute bottom-[-20%] right-[-20%] w-[80%] h-[80%] bg-purple-500/20 rounded-full blur-[200px]"></div>
+             
+             <div className="relative z-10 text-center border-4 border-white/20 p-20 rounded-[3rem] backdrop-blur-sm w-full h-full flex flex-col justify-center items-center">
+               <span className="text-blue-400 text-4xl font-bold tracking-[0.3em] mb-10 block">MY MBTI TYPE</span>
+               <h1 className="text-[12rem] font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 drop-shadow-2xl mb-10 leading-none">
+                 {mbti}
+               </h1>
+               <p className="text-5xl text-white font-bold mb-8 leading-tight max-w-4xl">
+                 "{resultData.headline}"
+               </p>
+               <div className="flex gap-4 mt-8">
+                 <span className="bg-white/10 px-6 py-3 rounded-full text-2xl text-blue-200">#{resultData.category}</span>
+                 <span className="bg-white/10 px-6 py-3 rounded-full text-2xl text-purple-200">#{fashion.style}</span>
+               </div>
+             </div>
+             <div className="absolute bottom-10 text-gray-400 text-2xl tracking-widest font-light">
+               AI NEWS CURATOR
+             </div>
+          </div>
+
+          {/* 2. Instagram Story (Vertical 1080x1920) */}
+          <div ref={storyRef} className="w-[1080px] h-[1920px] bg-gray-950 flex flex-col items-center p-20 relative overflow-hidden text-white">
+             {/* Background */}
+             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-800 via-gray-950 to-black"></div>
+             <div className="absolute top-[10%] left-[50%] -translate-x-1/2 w-[120%] h-[40%] bg-blue-600/20 rounded-full blur-[150px]"></div>
+
+             <div className="relative z-10 w-full flex flex-col items-center h-full">
+               <div className="mt-20 mb-10 text-3xl text-gray-400 tracking-[0.5em] font-light">AI NEWS CURATOR</div>
+               
+               <h1 className="text-[10rem] font-black text-white mb-4 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+                 {mbti}
+               </h1>
+               
+               <div className="w-full bg-white/5 border border-white/10 rounded-[3rem] p-12 backdrop-blur-md mb-12 shadow-2xl">
+                 <h2 className="text-5xl font-bold text-blue-300 mb-6">💡 Headline</h2>
+                 <p className="text-4xl leading-relaxed text-gray-200 font-light">
+                   {resultData.summary}
+                 </p>
+               </div>
+
+               <div className="w-full bg-white/5 border border-white/10 rounded-[3rem] p-12 backdrop-blur-md flex-grow mb-20 shadow-2xl">
+                 <h2 className="text-5xl font-bold text-purple-300 mb-10">🎨 Style & Traits</h2>
+                 <div className="space-y-8">
+                   <div className="flex items-center gap-6">
+                     <span className="text-6xl">👗</span>
+                     <span className="text-4xl font-medium">{fashion.style}</span>
+                   </div>
+                   <div className="flex items-center gap-6">
+                     <span className="text-6xl">💼</span>
+                     <span className="text-4xl font-medium">{traits.job.split(',')[0]}</span>
+                   </div>
+                   <div className="flex items-center gap-6">
+                     <span className="text-6xl">✈️</span>
+                     <span className="text-4xl font-medium">{traits.travel.split(',')[0]}</span>
+                   </div>
+                 </div>
+               </div>
+
+               <div className="mb-20 animate-bounce">
+                 <span className="text-3xl bg-white text-black px-8 py-4 rounded-full font-bold">
+                   🔗 Check Link in Bio
+                 </span>
+               </div>
+             </div>
+          </div>
         </div>
 
         {/* Main Content Grid (News & Fashion) */}
