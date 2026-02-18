@@ -1,14 +1,16 @@
 import React from 'react';
 import { newsData } from '../data/newsData';
 import { fashionData } from '../data/fashionData';
+import { mbtiTraits } from '../data/mbtiTraits';
 
 const Result = ({ mbti, onReset }) => {
   const resultData = newsData[mbti] || newsData['INFP']; // Default if not found
   const fashion = fashionData[mbti] || fashionData['INFP'];
+  const traits = mbtiTraits[mbti] || mbtiTraits['INFP'];
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-6 py-12">
-      <div className="max-w-4xl w-full flex flex-col gap-8">
+      <div className="max-w-6xl w-full flex flex-col gap-12">
         
         {/* Header Section */}
         <div className="text-center">
@@ -23,9 +25,10 @@ const Result = ({ mbti, onReset }) => {
           </p>
         </div>
 
+        {/* Main Content Grid (News & Fashion) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* News Section */}
-          <div className="bg-gray-800 rounded-2xl shadow-2xl overflow-hidden border border-gray-700 flex flex-col">
+          <div className="bg-gray-800 rounded-2xl shadow-2xl overflow-hidden border border-gray-700 flex flex-col hover:shadow-blue-900/20 transition-shadow duration-300">
             <div className="h-48 bg-gray-700 relative shrink-0">
               <img 
                 src={resultData.image} 
@@ -54,7 +57,7 @@ const Result = ({ mbti, onReset }) => {
           </div>
 
           {/* Fashion Section */}
-          <div className="bg-gray-800 rounded-2xl shadow-2xl overflow-hidden border border-gray-700 flex flex-col">
+          <div className="bg-gray-800 rounded-2xl shadow-2xl overflow-hidden border border-gray-700 flex flex-col hover:shadow-purple-900/20 transition-shadow duration-300">
             <div className="h-48 bg-gray-700 relative shrink-0">
               <img 
                 src={fashion.image} 
@@ -91,17 +94,47 @@ const Result = ({ mbti, onReset }) => {
           </div>
         </div>
 
-        <div className="mt-8 text-center">
+        {/* Detailed Traits Analysis Section */}
+        <div className="w-full mt-4">
+          <h3 className="text-3xl font-bold text-center mb-10 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500">
+            🧐 {mbti}의 라이프스타일 분석
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <TraitCard title="직업·역할" icon="💼" content={traits.job} color="border-blue-500/30 bg-blue-900/20" />
+            <TraitCard title="학습 방식" icon="📚" content={traits.learning} color="border-green-500/30 bg-green-900/20" />
+            <TraitCard title="콘텐츠 소비" icon="📺" content={traits.content} color="border-red-500/30 bg-red-900/20" />
+            <TraitCard title="선호 UI/UX" icon="📱" content={traits.ui} color="border-yellow-500/30 bg-yellow-900/20" />
+            <TraitCard title="쇼핑 스타일" icon="🛒" content={traits.shopping} color="border-pink-500/30 bg-pink-900/20" />
+            <TraitCard title="여행 스타일" icon="✈️" content={traits.travel} color="border-indigo-500/30 bg-indigo-900/20" />
+            <TraitCard title="인간관계" icon="🤝" content={traits.relationship} color="border-orange-500/30 bg-orange-900/20" />
+            <TraitCard title="스트레스 해소" icon="🧘" content={traits.stress} color="border-teal-500/30 bg-teal-900/20" />
+          </div>
+        </div>
+
+        <div className="mt-8 text-center pb-8">
           <button
             onClick={onReset}
-            className="px-8 py-3 bg-gray-700 hover:bg-gray-600 rounded-full text-white font-semibold transition-all shadow-lg hover:shadow-xl"
+            className="px-10 py-4 bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-full text-white text-lg font-bold transition-all shadow-lg hover:shadow-xl hover:scale-105"
           >
-            테스트 다시 하기
+            🔄 테스트 다시 하기
           </button>
         </div>
       </div>
     </div>
   );
 };
+
+// Helper Component for Trait Cards
+const TraitCard = ({ title, icon, content, color }) => (
+  <div className={`p-6 rounded-2xl border ${color} backdrop-blur-sm hover:bg-opacity-40 transition-all duration-300 hover:-translate-y-1 h-full`}>
+    <div className="flex items-center gap-3 mb-3">
+      <span className="text-3xl">{icon}</span>
+      <h4 className="font-bold text-lg text-gray-100">{title}</h4>
+    </div>
+    <p className="text-gray-400 text-sm leading-relaxed font-light">
+      {content}
+    </p>
+  </div>
+);
 
 export default Result;
