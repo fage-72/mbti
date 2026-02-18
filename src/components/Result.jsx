@@ -373,24 +373,32 @@ const Result = ({ onReset }) => {
           </div>
         </div>
 
-        <div className="mt-12 text-center pb-12 flex flex-col items-center gap-4">
-          <button
-            onClick={() => navigate('/saju', { state: { mbti } })}
-            className="w-full max-w-md px-12 py-5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-full text-xl font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 animate-pulse"
-          >
-            🔮 내 사주와 MBTI 궁합 보기
-          </button>
-
-          <button
-            onClick={() => navigate('/community', { state: { mbti } })}
-            className="w-full max-w-md px-12 py-5 bg-gradient-to-r from-teal-400 to-blue-500 hover:from-teal-500 hover:to-blue-600 text-white rounded-full text-xl font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3"
-          >
-            💬 MBTI 커뮤니티 입장하기
-          </button>
+        <div className="mt-16 w-full max-w-2xl mx-auto border-t border-gray-200 dark:border-gray-800 pt-12 text-center">
+          <h4 className="text-xl font-bold mb-8 text-gray-800 dark:text-gray-200">
+            🔮 더 깊은 분석과 소통을 원하시나요?
+          </h4>
           
+          <div className="flex flex-col items-center gap-6">
+            <button
+              onClick={() => navigate('/saju', { state: { mbti } })}
+              className="w-full px-12 py-5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-2xl text-xl font-bold shadow-xl hover:shadow-indigo-500/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-3"
+            >
+              🔮 내 사주와 MBTI 궁합 분석
+            </button>
+
+            <button
+              onClick={() => navigate('/community', { state: { mbti } })}
+              className="w-full px-12 py-5 bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-white rounded-2xl text-xl font-bold shadow-xl hover:shadow-teal-500/20 hover:scale-[1.02] transition-all flex items-center justify-center gap-3 animate-bounce-subtle"
+            >
+              💬 MBTI 커뮤니티 입장하기
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-12 text-center pb-12">
           <button
             onClick={onReset}
-            className="w-full max-w-md px-12 py-5 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full text-gray-900 dark:text-white text-xl font-bold transition-all shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2 mt-4"
+            className="px-12 py-4 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full text-gray-600 dark:text-gray-400 text-lg font-bold transition-all shadow-md flex items-center justify-center gap-2 mx-auto"
           >
             🔄 테스트 다시 하기
           </button>
