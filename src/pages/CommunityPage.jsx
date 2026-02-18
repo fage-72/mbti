@@ -22,7 +22,7 @@ const CommunityPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [region, setRegion] = useState('Unknown');
 
-  // 1. 접속 지역 정보 가져오기
+  // 1. 접속 지역 정보 가져오기 (IP 기반)
   useEffect(() => {
     const fetchRegion = async () => {
       try {
@@ -36,45 +36,17 @@ const CommunityPage = () => {
     fetchRegion();
   }, []);
 
-  // 2. 모바일 리다이렉트 결과 처리
+  // 2. 모바일 리다이렉트 로그인 결과 처리
   useEffect(() => {
     getRedirectResult(auth).catch((error) => {
       console.error("Redirect Login Error", error);
       if (error.code === 'auth/web-storage-unsupported' || error.code === 'auth/operation-not-supported-in-this-environment') {
-        alert('현재 브라우저 환경에서 구글 로그인이 차단되었습니다. 카카오톡/네이버 앱인 경우, 오른쪽 상단 메뉴를 눌러 "다른 브라우저로 열기" 또는 "Safari/Chrome으로 열기"를 선택해주세요! 🚀');
+        alert('현재 브라우저 환경에서 로그인이 차단되었습니다. 크롬/사파리 등 일반 브라우저에서 접속하거나 "다른 브라우저로 열기"를 선택해주세요! 🚀');
       }
     });
   }, []);
 
-  const handleAction = async (task) => {
-    if (!user) {
-      if (userMbti === 'GUEST' && !localStorage.getItem('userMbti')) {
-        alert('테스트를 먼저 완료해주세요! ✨');
-        navigate('/');
-        return;
-      }
-      try {
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        const isInApp = /KAKAO|NAVER|Instagram|FBAN|FBAV/i.test(navigator.userAgent);
-
-        if (isInApp) {
-          alert('카카오톡/네이버 등 인앱 브라우저에서는 구글 로그인이 제한될 수 있습니다. 문제가 발생하면 일반 브라우저(크롬, 사파리)에서 접속해주세요! 💡');
-        }
-
-        if (isMobile) {
-          await signInWithRedirect(auth, googleProvider);
-        } else {
-          await signInWithPopup(auth, googleProvider);
-        }
-      } catch (e) {
-        console.error(e);
-        alert('로그인에 실패했습니다. 일반 브라우저(Chrome, Safari) 환경인지 확인해주세요.');
-      }
-      return;
-    }
-
-
-  // 3. 유저 상태 관리 및 ID 생성
+  // 3. 유저 상태 관리 및 고유 ID 생성 (MBTI-지역-순번)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -106,6 +78,7 @@ const CommunityPage = () => {
             setUserId(finalId);
             localStorage.setItem(`customId_${currentUser.uid}`, finalId);
           } catch (e) {
+            console.error("ID Gen Error", e);
             setUserId(`${userMbti}-${region}-NEW`);
           }
         }
@@ -117,39 +90,49 @@ const CommunityPage = () => {
     return () => unsubscribe();
   }, [userMbti, region]);
 
-  // 4. 게시글 동기화
+  // 4. 게시글 실시간 동기화 (Firestore)
   useEffect(() => {
     setIsLoading(true);
     const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       setPosts(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
       setIsLoading(false);
+    }, (error) => {
+      console.error("Firestore Error:", error);
+      setIsLoading(false);
     });
     return () => unsubscribe();
   }, []);
 
-  const handleAction = async (task) => {
+  // 5. 로그인 및 글쓰기 액션 통합
+  const handleAction = async (type) => {
     if (!user) {
       if (userMbti === 'GUEST' && !localStorage.getItem('userMbti')) {
-        alert('테스트를 먼저 완료해주세요! ✨');
+        alert('성향 기반 아이디 생성을 위해 MBTI 테스트를 먼저 완료해주세요! ✨');
         navigate('/');
         return;
       }
+      
       try {
-        // 모바일 기기 감지
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        const isInApp = /KAKAO|NAVER|Instagram|FBAN|FBAV/i.test(navigator.userAgent);
+
+        if (isInApp) {
+          alert('인앱 브라우저(카톡/네이버 등)에서는 로그인이 제한될 수 있습니다. 문제가 발생하면 일반 브라우저로 접속해주세요! 💡');
+        }
+
         if (isMobile) {
           await signInWithRedirect(auth, googleProvider);
         } else {
           await signInWithPopup(auth, googleProvider);
         }
       } catch (e) {
-        alert('로그인에 실패했습니다. 브라우저의 팝업 차단 설정을 확인해주세요.');
+        alert('로그인에 실패했습니다. 일반 브라우저 환경인지 확인해주세요.');
       }
       return;
     }
 
-    if (task === 'submit' && inputText.trim()) {
+    if (type === 'submit' && inputText.trim()) {
       try {
         await addDoc(collection(db, 'posts'), {
           authorId: userId,
@@ -162,7 +145,7 @@ const CommunityPage = () => {
         });
         setInputText('');
       } catch (e) {
-        alert('글 등록 권한이 없습니다.');
+        alert('글 등록 권한이 없습니다. Firebase 설정을 확인해주세요.');
       }
     }
   };
@@ -181,9 +164,10 @@ const CommunityPage = () => {
         
         <div className="text-center mb-10">
           <h1 className="text-4xl font-black text-blue-600 dark:text-blue-400 mb-2 tracking-tighter italic">MBTI WORLD</h1>
-          <p className="text-xs font-bold text-gray-400 tracking-[0.3em] uppercase">Version 1.9 - Mobile Optimized</p>
+          <p className="text-xs font-bold text-gray-400 tracking-[0.3em] uppercase">Version 1.9.1 - Global Tracking</p>
         </div>
 
+        {/* User Info / Logout */}
         {user && (
           <div className="mb-6 flex justify-between items-center bg-white dark:bg-gray-900 p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
             <div className="flex items-center gap-3">
@@ -199,6 +183,7 @@ const CommunityPage = () => {
           </div>
         )}
 
+        {/* Write Box */}
         <div className="bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-xl border border-blue-100 dark:border-blue-900/30 mb-10 overflow-hidden relative">
           {!user && (
             <div className="absolute inset-0 z-10 bg-white/80 dark:bg-gray-900/80 backdrop-blur-[2px] flex items-center justify-center p-6 text-center">
@@ -209,7 +194,7 @@ const CommunityPage = () => {
                   className="px-8 py-3 bg-blue-600 text-white rounded-xl font-black shadow-lg hover:scale-105 transition-all flex items-center gap-2"
                 >
                   <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="G" className="w-5 h-5 bg-white rounded-full p-0.5" />
-                  Google로 시작하기
+                  Google로 로그인
                 </button>
               </div>
             </div>
@@ -230,6 +215,7 @@ const CommunityPage = () => {
           </div>
         </div>
 
+        {/* Posts List */}
         <div className="space-y-6">
           <h3 className="text-xl font-black px-2 flex items-center gap-2">
             <span className="w-1.5 h-5 bg-blue-500 rounded-full"></span>
@@ -237,6 +223,8 @@ const CommunityPage = () => {
           </h3>
           {isLoading ? (
             <div className="text-center py-20 text-gray-400 animate-pulse font-bold tracking-widest">CONNECTING...</div>
+          ) : posts.length === 0 ? (
+            <div className="py-20 text-center text-gray-400 font-medium italic">아직 게시글이 없습니다. 첫 글을 남겨보세요!</div>
           ) : (
             posts.map((post) => (
               <div key={post.id} className="bg-white dark:bg-gray-900 p-6 rounded-3xl shadow-md border border-gray-100 dark:border-gray-800 animate-fade-in hover:border-blue-300 dark:hover:border-blue-700 transition-all group">
