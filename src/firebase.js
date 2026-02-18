@@ -3,14 +3,14 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// TODO: Replace with your actual Firebase project config
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDWGvTc5mKdffC0zxzPfG6vNxedSnfMr10",
+  authDomain: "mbti-844f1.firebaseapp.com",
+  projectId: "mbti-844f1",
+  storageBucket: "mbti-844f1.firebasestorage.app",
+  messagingSenderId: "498004791450",
+  appId: "1:498004791450:web:1362bd16a63a7516938f23",
+  measurementId: "G-JE3YQWY6L0"
 };
 
 // Initialize Firebase
