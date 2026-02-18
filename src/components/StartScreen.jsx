@@ -28,7 +28,7 @@ const StartScreen = ({ onStart }) => {
       </div>
       
       <div className="absolute bottom-8 text-gray-500 text-xs tracking-wider">
-        © 2026 MBTI News Curator
+        © 2026 MBTI News Curator v1.2
       </div>
     </div>
   );
