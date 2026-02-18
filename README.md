@@ -1,16 +1,27 @@
-# React + Vite
+# MBTI 뉴스 큐레이터 앱
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+이 앱은 사용자의 성향을 8가지 질문으로 분석하여 16가지 MBTI 유형 중 하나를 도출하고, 해당 유형에 맞는 맞춤형 뉴스를 추천해주는 React 웹 애플리케이션입니다.
 
-Currently, two official plugins are available:
+## 1. 주요 기능
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*   **MBTI 진단:** 8개의 질문(E/I, S/N, T/F, J/P 각 2문항)을 통해 사용자의 성향을 파악합니다.
+*   **맞춤 뉴스 추천:** 도출된 MBTI 유형에 따라 가장 관심 있어 할 만한 뉴스 카테고리와 가상 기사를 보여줍니다.
+*   **반응형 디자인:** Tailwind CSS를 사용하여 모바일과 데스크톱 모두에서 깔끔하게 보이는 UI를 제공합니다.
 
-## React Compiler
+## 2. 프로젝트 구조
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   `src/components/StartScreen.jsx`: 앱의 시작 화면.
+*   `src/components/Quiz.jsx`: 질문을 보여주고 답변을 수집하여 MBTI를 계산하는 로직 포함.
+*   `src/components/Result.jsx`: 결과(MBTI)와 추천 뉴스를 보여주는 화면.
+*   `src/data/questions.js`: 8개의 MBTI 질문 데이터.
+*   `src/data/newsData.js`: 16개 MBTI 유형별 뉴스 데이터 매핑.
 
-## Expanding the ESLint configuration
+## 3. 실행 방법
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+터미널에서 다음 명령어를 입력하여 개발 서버를 실행하세요.
+
+```bash
+npm run dev
+```
+
+브라우저에서 표시된 주소(예: `http://localhost:5173`)로 접속하면 앱을 사용할 수 있습니다.
