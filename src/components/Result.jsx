@@ -142,33 +142,47 @@ const Result = ({ mbti, stats = { strategy: 50, focus: 50, risk: 50 }, level = 1
         <div className="absolute left-[-9999px] top-[-9999px]">
           {/* 1. Instagram Feed (Square 1080x1080) */}
           <div ref={feedRef} className="w-[1080px] h-[1080px] bg-gray-900 flex flex-col items-center justify-center p-20 relative overflow-hidden">
-             <div className="absolute inset-0 bg-gradient-to-br from-blue-900/50 via-purple-900/50 to-pink-900/50"></div>
-             <div className="absolute top-[-20%] left-[-20%] w-[80%] h-[80%] bg-blue-500/20 rounded-full blur-[200px]"></div>
-             <div className="absolute bottom-[-20%] right-[-20%] w-[80%] h-[80%] bg-purple-500/20 rounded-full blur-[200px]"></div>
+             <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900"></div>
+             {/* Removed blurring blobs for better html2canvas stability or kept simple */}
+             <div className="absolute top-[-20%] left-[-20%] w-[80%] h-[80%] bg-blue-600/20 rounded-full blur-[150px]"></div>
+             <div className="absolute bottom-[-20%] right-[-20%] w-[80%] h-[80%] bg-purple-600/20 rounded-full blur-[150px]"></div>
              
-             <div className="relative z-10 text-center border-4 border-white/20 p-20 rounded-[3rem] backdrop-blur-sm w-full h-full flex flex-col justify-center items-center">
-               <span className="text-yellow-400 text-5xl font-bold mb-8 block drop-shadow-lg">Lv.{level} {levelTitle}</span>
-               <span className="text-blue-400 text-4xl font-bold tracking-[0.3em] mb-4 block">MY MBTI TYPE</span>
-               <h1 className="text-[12rem] font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 drop-shadow-2xl mb-10 leading-none">
+             <div className="relative z-10 text-center border-8 border-white/10 p-20 rounded-[3rem] w-full h-full flex flex-col justify-center items-center backdrop-blur-none">
+               <span className="text-yellow-400 text-5xl font-bold mb-8 block drop-shadow-md">Lv.{level} {levelTitle}</span>
+               <span className="text-blue-300 text-4xl font-bold tracking-[0.3em] mb-4 block">MY MBTI TYPE</span>
+               {/* Changed to solid text color for html2canvas compatibility */}
+               <h1 className="text-[12rem] font-black text-white drop-shadow-2xl mb-10 leading-none">
                  {mbti}
                </h1>
-               <div className="w-full max-w-2xl bg-black/30 rounded-3xl p-8 mb-8 backdrop-blur-md">
-                 <div className="flex justify-between text-3xl text-white mb-4">
-                   <span>전략</span><span className="font-bold text-blue-300">{stats.strategy}</span>
+               <div className="w-full max-w-3xl bg-black/40 rounded-3xl p-10 mb-8 border border-white/10">
+                 <div className="flex items-center justify-between text-4xl text-white mb-6">
+                   <span className="w-32 text-left">전략</span>
+                   <div className="flex-grow mx-6 bg-gray-700 h-6 rounded-full overflow-hidden">
+                     <div className="bg-blue-500 h-full" style={{ width: `${stats.strategy}%` }}></div>
+                   </div>
+                   <span className="font-bold w-16 text-right text-blue-300">{stats.strategy}</span>
                  </div>
-                 <div className="flex justify-between text-3xl text-white mb-4">
-                   <span>집중</span><span className="font-bold text-purple-300">{stats.focus}</span>
+                 <div className="flex items-center justify-between text-4xl text-white mb-6">
+                   <span className="w-32 text-left">집중</span>
+                   <div className="flex-grow mx-6 bg-gray-700 h-6 rounded-full overflow-hidden">
+                     <div className="bg-purple-500 h-full" style={{ width: `${stats.focus}%` }}></div>
+                   </div>
+                   <span className="font-bold w-16 text-right text-purple-300">{stats.focus}</span>
                  </div>
-                 <div className="flex justify-between text-3xl text-white">
-                   <span>모험</span><span className="font-bold text-pink-300">{stats.risk}</span>
+                 <div className="flex items-center justify-between text-4xl text-white">
+                   <span className="w-32 text-left">모험</span>
+                   <div className="flex-grow mx-6 bg-gray-700 h-6 rounded-full overflow-hidden">
+                     <div className="bg-pink-500 h-full" style={{ width: `${stats.risk}%` }}></div>
+                   </div>
+                   <span className="font-bold w-16 text-right text-pink-300">{stats.risk}</span>
                  </div>
                </div>
-               <div className="flex gap-4 mt-4">
-                 <span className="bg-white/10 px-6 py-3 rounded-full text-2xl text-blue-200">#{resultData.category}</span>
-                 <span className="bg-white/10 px-6 py-3 rounded-full text-2xl text-purple-200">#{fashion.style}</span>
+               <div className="flex gap-6 mt-4">
+                 <span className="bg-blue-600/30 border border-blue-400/30 px-8 py-4 rounded-full text-3xl text-blue-100 font-bold">#{resultData.category}</span>
+                 <span className="bg-purple-600/30 border border-purple-400/30 px-8 py-4 rounded-full text-3xl text-purple-100 font-bold">#{fashion.style}</span>
                </div>
              </div>
-             <div className="absolute bottom-10 text-gray-400 text-2xl tracking-widest font-light">
+             <div className="absolute bottom-10 text-white/50 text-3xl tracking-[0.5em] font-light">
                AI NEWS CURATOR
              </div>
           </div>
