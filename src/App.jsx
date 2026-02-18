@@ -1,18 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import QuizFlow from './pages/QuizFlow';
 import DetailPage from './pages/DetailPage';
 import SajuPage from './pages/SajuPage';
 import './App.css';
 
+// Global Navigation Component to handle Theme and Back buttons
+const GlobalNav = ({ darkMode, toggleTheme }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHome = location.pathname === '/';
+
+  return (
+    <div className="fixed top-4 right-4 z-50 flex gap-3">
+      {!isHome && (
+        <button
+          onClick={() => navigate(-1)}
+          className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all transform hover:scale-110 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 flex items-center justify-center w-12 h-12"
+          aria-label="Go Back"
+        >
+          <span className="text-xl">⬅️</span>
+        </button>
+      )}
+      <button
+        onClick={toggleTheme}
+        className="p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all transform hover:scale-110 border border-gray-200 dark:border-gray-700 flex items-center justify-center w-12 h-12"
+        aria-label="Toggle Dark Mode"
+      >
+        <span className="text-xl">{darkMode ? '☀️' : '🌙'}</span>
+      </button>
+    </div>
+  );
+};
+
 function App() {
-  // Theme State: Check localStorage or default to dark mode
+  // Theme State
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
     return savedTheme ? savedTheme === 'dark' : true;
   });
 
-  // Apply dark mode class to html element
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
@@ -30,14 +57,7 @@ function App() {
   return (
     <Router>
       <div className="App min-h-dvh w-full overflow-x-hidden bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white transition-colors duration-300 relative">
-        {/* Theme Toggle Button */}
-        <button
-          onClick={toggleTheme}
-          className="fixed top-4 right-4 z-50 p-3 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all transform hover:scale-110 border border-gray-200 dark:border-gray-700"
-          aria-label="Toggle Dark Mode"
-        >
-          {darkMode ? '☀️' : '🌙'}
-        </button>
+        <GlobalNav darkMode={darkMode} toggleTheme={toggleTheme} />
 
         <Routes>
           <Route path="/" element={<QuizFlow />} />
