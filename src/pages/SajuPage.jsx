@@ -135,56 +135,66 @@ const SajuPage = () => {
         </header>
 
         {!result ? (
-          <form onSubmit={handleCalculate} className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl border border-gray-100 dark:border-gray-700 space-y-6">
-            <div>
-              <label className="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">태어난 연도 (YYYY)</label>
-              <input 
-                type="number" 
-                placeholder="예: 1995" 
-                className="w-full p-4 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-yellow-500 outline-none transition-all"
-                value={birthData.year}
-                onChange={(e) => setBirthData({...birthData, year: e.target.value})}
-                required
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">월 (MM)</label>
+          <form onSubmit={handleCalculate} className="bg-white dark:bg-gray-800/80 rounded-3xl p-8 md:p-10 shadow-2xl border border-gray-100 dark:border-gray-700/50 backdrop-blur-sm space-y-8">
+            <div className="space-y-6">
+              <div className="group">
+                <label className="block text-sm font-bold mb-2 text-gray-500 dark:text-gray-400 group-focus-within:text-yellow-500 transition-colors uppercase tracking-widest">태어난 연도 (YYYY)</label>
                 <input 
                   type="number" 
-                  placeholder="예: 8" 
-                  className="w-full p-4 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-yellow-500 outline-none transition-all"
-                  value={birthData.month}
-                  onChange={(e) => setBirthData({...birthData, month: e.target.value})}
+                  placeholder="예: 1995" 
+                  className="w-full p-5 rounded-2xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:border-yellow-500 dark:focus:border-yellow-500 focus:ring-4 focus:ring-yellow-500/10 outline-none transition-all text-xl font-medium placeholder:text-gray-300 dark:placeholder:text-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                  value={birthData.year}
+                  onChange={(e) => setBirthData({...birthData, year: e.target.value})}
                   required
                 />
               </div>
-              <div>
-                <label className="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">일 (DD)</label>
-                <input 
-                  type="number" 
-                  placeholder="예: 15" 
-                  className="w-full p-4 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-yellow-500 outline-none transition-all"
-                  value={birthData.day}
-                  onChange={(e) => setBirthData({...birthData, day: e.target.value})}
-                  required
-                />
+              
+              <div className="grid grid-cols-2 gap-6">
+                <div className="group">
+                  <label className="block text-sm font-bold mb-2 text-gray-500 dark:text-gray-400 group-focus-within:text-yellow-500 transition-colors uppercase tracking-widest">월 (MM)</label>
+                  <input 
+                    type="number" 
+                    placeholder="예: 8" 
+                    className="w-full p-5 rounded-2xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:border-yellow-500 dark:focus:border-yellow-500 focus:ring-4 focus:ring-yellow-500/10 outline-none transition-all text-xl font-medium placeholder:text-gray-300 dark:placeholder:text-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    value={birthData.month}
+                    onChange={(e) => setBirthData({...birthData, month: e.target.value})}
+                    required
+                  />
+                </div>
+                <div className="group">
+                  <label className="block text-sm font-bold mb-2 text-gray-500 dark:text-gray-400 group-focus-within:text-yellow-500 transition-colors uppercase tracking-widest">일 (DD)</label>
+                  <input 
+                    type="number" 
+                    placeholder="예: 15" 
+                    className="w-full p-5 rounded-2xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:border-yellow-500 dark:focus:border-yellow-500 focus:ring-4 focus:ring-yellow-500/10 outline-none transition-all text-xl font-medium placeholder:text-gray-300 dark:placeholder:text-gray-600 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    value={birthData.day}
+                    onChange={(e) => setBirthData({...birthData, day: e.target.value})}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="group">
+                <label className="block text-sm font-bold mb-2 text-gray-500 dark:text-gray-400 group-focus-within:text-yellow-500 transition-colors uppercase tracking-widest">태어난 시간 (선택)</label>
+                <div className="relative">
+                  <input 
+                    type="time" 
+                    className="w-full p-5 rounded-2xl bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 focus:border-yellow-500 dark:focus:border-yellow-500 focus:ring-4 focus:ring-yellow-500/10 outline-none transition-all text-xl font-medium text-gray-700 dark:text-gray-200"
+                    value={birthData.time}
+                    onChange={(e) => setBirthData({...birthData, time: e.target.value})}
+                  />
+                  <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none text-gray-400">
+                    🕒
+                  </div>
+                </div>
               </div>
             </div>
-            <div>
-              <label className="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">태어난 시간 (선택)</label>
-              <input 
-                type="time" 
-                className="w-full p-4 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:ring-2 focus:ring-yellow-500 outline-none transition-all"
-                value={birthData.time}
-                onChange={(e) => setBirthData({...birthData, time: e.target.value})}
-              />
-            </div>
+
             <button 
               type="submit"
-              className="w-full py-4 bg-gradient-to-r from-yellow-500 to-red-600 text-white font-bold text-xl rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all"
+              className="w-full py-5 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-600 text-white font-black text-xl rounded-2xl shadow-xl hover:shadow-yellow-500/20 transform hover:-translate-y-1 transition-all flex items-center justify-center gap-3"
             >
-              내 사주 확인하기 ✨
+              내 운명의 지도 확인하기 🗺️
             </button>
           </form>
         ) : (
