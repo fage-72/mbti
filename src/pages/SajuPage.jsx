@@ -118,10 +118,10 @@ const SajuPage = () => {
     <div className="min-h-dvh bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white p-6 py-12 transition-colors duration-300 flex flex-col items-center">
       <div className="max-w-2xl w-full">
         <button 
-          onClick={() => navigate('/')}
+          onClick={() => navigate(-1)}
           className="mb-8 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-300"
         >
-          ← 처음으로 돌아가기
+          ← 이전으로 돌아가기
         </button>
 
         <header className="text-center mb-12">
