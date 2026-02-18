@@ -123,40 +123,40 @@ const Result = ({ mbti, onReset }) => {
              <div className="absolute top-[10%] left-[50%] -translate-x-1/2 w-[120%] h-[40%] bg-blue-600/20 rounded-full blur-[150px]"></div>
 
              <div className="relative z-10 w-full flex flex-col items-center h-full">
-               <div className="mt-20 mb-10 text-3xl text-gray-400 tracking-[0.5em] font-light">AI NEWS CURATOR</div>
+               <div className="mt-40 mb-20 text-4xl text-gray-400 tracking-[0.5em] font-light">AI NEWS CURATOR</div>
                
-               <h1 className="text-[10rem] font-black text-white mb-4 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+               <h1 className="text-[12rem] font-black text-white mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
                  {mbti}
                </h1>
                
-               <div className="w-full bg-white/5 border border-white/10 rounded-[3rem] p-12 backdrop-blur-md mb-12 shadow-2xl">
-                 <h2 className="text-5xl font-bold text-blue-300 mb-6">💡 Headline</h2>
-                 <p className="text-4xl leading-relaxed text-gray-200 font-light">
+               <div className="w-full bg-white/5 border border-white/10 rounded-[3rem] p-16 backdrop-blur-md mb-16 shadow-2xl">
+                 <h2 className="text-6xl font-bold text-blue-300 mb-8 tracking-tight">AI Headline</h2>
+                 <p className="text-5xl leading-[1.4] text-gray-100 font-light">
                    {resultData.summary}
                  </p>
                </div>
 
-               <div className="w-full bg-white/5 border border-white/10 rounded-[3rem] p-12 backdrop-blur-md flex-grow mb-20 shadow-2xl">
-                 <h2 className="text-5xl font-bold text-purple-300 mb-10">🎨 Style & Traits</h2>
-                 <div className="space-y-8">
-                   <div className="flex items-center gap-6">
-                     <span className="text-6xl">👗</span>
-                     <span className="text-4xl font-medium">{fashion.style}</span>
+               <div className="w-full bg-white/5 border border-white/10 rounded-[3rem] p-16 backdrop-blur-md shadow-2xl">
+                 <h2 className="text-6xl font-bold text-purple-300 mb-12 tracking-tight">Key Traits</h2>
+                 <div className="space-y-12">
+                   <div className="flex items-center gap-10">
+                     <span className="text-8xl">👗</span>
+                     <span className="text-5xl font-medium">{fashion.style}</span>
                    </div>
-                   <div className="flex items-center gap-6">
-                     <span className="text-6xl">💼</span>
-                     <span className="text-4xl font-medium">{traits.job.split(',')[0]}</span>
+                   <div className="flex items-center gap-10">
+                     <span className="text-8xl">💼</span>
+                     <span className="text-5xl font-medium">{traits.job.split(',')[0]}</span>
                    </div>
-                   <div className="flex items-center gap-6">
-                     <span className="text-6xl">✈️</span>
-                     <span className="text-4xl font-medium">{traits.travel.split(',')[0]}</span>
+                   <div className="flex items-center gap-10">
+                     <span className="text-8xl">✈️</span>
+                     <span className="text-5xl font-medium">{traits.travel.split(',')[0]}</span>
                    </div>
                  </div>
                </div>
 
-               <div className="mb-20 animate-bounce">
-                 <span className="text-3xl bg-white text-black px-8 py-4 rounded-full font-bold">
-                   🔗 Check Link in Bio
+               <div className="mt-auto mb-20">
+                 <span className="text-4xl text-gray-500 font-light tracking-widest">
+                   WWW.MBTI-NEWS.APP
                  </span>
                </div>
              </div>
