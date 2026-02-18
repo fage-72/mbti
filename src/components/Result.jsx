@@ -366,10 +366,17 @@ const Result = ({ mbti, stats = { strategy: 50, focus: 50, risk: 50 }, level = 1
           </div>
         </div>
 
-        <div className="mt-12 text-center pb-12">
+        <div className="mt-12 text-center pb-12 flex flex-col items-center gap-6">
+          <button
+            onClick={() => navigate('/saju')}
+            className="w-full max-w-md px-12 py-5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-full text-xl font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all flex items-center justify-center gap-3 animate-pulse"
+          >
+            🔮 내 사주와 MBTI 궁합 보기
+          </button>
+          
           <button
             onClick={onReset}
-            className="px-12 py-5 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full text-gray-900 dark:text-white text-xl font-bold transition-all shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2 mx-auto"
+            className="w-full max-w-md px-12 py-5 bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full text-gray-900 dark:text-white text-xl font-bold transition-all shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
           >
             🔄 테스트 다시 하기
           </button>

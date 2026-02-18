@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import QuizFlow from './pages/QuizFlow';
 import DetailPage from './pages/DetailPage';
+import SajuPage from './pages/SajuPage';
 import './App.css';
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<QuizFlow />} />
+          <Route path="/saju" element={<SajuPage />} />
           <Route path="/:slug" element={<DetailPage />} />
         </Routes>
       </div>
