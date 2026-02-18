@@ -44,8 +44,11 @@ const Result = ({ mbti, onReset }) => {
               <p className="text-gray-400 mb-6 leading-relaxed flex-grow">
                 {resultData.summary}
               </p>
-              <button className="w-full py-3 border border-blue-500 text-blue-400 rounded-lg hover:bg-blue-900/30 transition-colors font-semibold mt-auto">
-                뉴스 더 보기
+              <button 
+                onClick={() => window.open(`https://www.google.com/search?q=${resultData.headline}`, '_blank')}
+                className="w-full py-3 border border-blue-500 text-blue-400 rounded-lg hover:bg-blue-900/30 transition-colors font-semibold mt-auto"
+              >
+                뉴스 검색하기
               </button>
             </div>
           </div>
@@ -70,7 +73,7 @@ const Result = ({ mbti, onReset }) => {
               <p className="text-gray-400 mb-4 leading-relaxed">
                 {fashion.description}
               </p>
-              <div className="bg-gray-900/50 rounded-lg p-4 mt-auto">
+              <div className="bg-gray-900/50 rounded-lg p-4 mb-6 flex-grow">
                 <h3 className="text-sm font-semibold text-gray-300 mb-2">✨ 추천 스타일링 팁</h3>
                 <ul className="text-sm text-gray-400 space-y-1 list-disc list-inside">
                   {fashion.tips.map((tip, index) => (
@@ -78,6 +81,12 @@ const Result = ({ mbti, onReset }) => {
                   ))}
                 </ul>
               </div>
+              <button 
+                onClick={() => window.open(`https://www.google.com/search?q=${fashion.style} 스타일`, '_blank')}
+                className="w-full py-3 border border-purple-500 text-purple-400 rounded-lg hover:bg-purple-900/30 transition-colors font-semibold mt-auto"
+              >
+                스타일 검색하기
+              </button>
             </div>
           </div>
         </div>
