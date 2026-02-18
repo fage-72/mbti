@@ -6,33 +6,36 @@ const Quiz = ({ onFinish }) => {
   const [answers, setAnswers] = useState({});
   const [stats, setStats] = useState({ strategy: 0, focus: 0, risk: 0 });
 
-  const handleAnswer = (value) => {
-    const newAnswers = { ...answers, [currentQuestionIndex]: value };
+  const handleAnswer = (option) => {
+    // 1. Save answer for MBTI calculation
+    const newAnswers = { ...answers, [currentQuestionIndex]: option.value };
     setAnswers(newAnswers);
+
+    // 2. Accumulate Stats
+    if (option.stats) {
+      setStats(prev => ({
+        strategy: prev.strategy + (option.stats.strategy || 0),
+        focus: prev.focus + (option.stats.focus || 0),
+        risk: prev.risk + (option.stats.risk || 0)
+      }));
+    }
 
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      calculateResult(newAnswers);
+      // Pass stats manually as state update is async
+      calculateResult(newAnswers, stats, option.stats); 
     }
   };
 
-  const calculateResult = (finalAnswers) => {
+  const calculateResult = (finalAnswers, currentStats, lastOptionStats) => {
     let scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
 
     Object.values(finalAnswers).forEach((val) => {
       scores[val] = (scores[val] || 0) + 1;
     });
 
-    // Determine types. Tie-breaking logic: E>I, S>N, T>F, J>P if equal?
-    // Actually, with 2 questions, if 1-1, let's default to the letter that comes first in alphabet? No that's arbitrary.
-    // Let's just use > so if 1 vs 1, it goes to the second one (<=).
-    // E vs I: If E > I then E else I. (So 1-1 -> I)
-    // S vs N: If S > N then S else N. (So 1-1 -> N)
-    // T vs F: If T > F then T else F. (So 1-1 -> F)
-    // J vs P: If J > P then J else P. (So 1-1 -> P)
-    // This biases towards INFP in ties. That's fine for a fun quiz.
-
+    // Determine types
     const mbti = [
       scores.E > scores.I ? 'E' : 'I',
       scores.S > scores.N ? 'S' : 'N',
@@ -40,7 +43,30 @@ const Quiz = ({ onFinish }) => {
       scores.J > scores.P ? 'J' : 'P',
     ].join('');
 
-    onFinish(mbti);
+    // Normalize Stats (Max possible roughly 20-25 per category)
+    // Scale to 0-100
+    const finalStats = {
+      strategy: currentStats.strategy + (lastOptionStats?.strategy || 0),
+      focus: currentStats.focus + (lastOptionStats?.focus || 0),
+      risk: currentStats.risk + (lastOptionStats?.risk || 0)
+    };
+
+    const normalizedStats = {
+      strategy: Math.min(100, Math.round(finalStats.strategy * 4)), 
+      focus: Math.min(100, Math.round(finalStats.focus * 4)),
+      risk: Math.min(100, Math.round(finalStats.risk * 4))
+    };
+
+    // Calculate Level
+    const totalScore = normalizedStats.strategy + normalizedStats.focus + normalizedStats.risk;
+    let level = 1;
+    if (totalScore > 200) level = 4; // Master
+    else if (totalScore > 150) level = 3; // Expert
+    else if (totalScore > 100) level = 2; // Pro
+    else level = 1; // Rookie
+
+    // Send object with all data
+    onFinish({ mbti, stats: normalizedStats, level });
   };
 
   const currentQuestion = questions[currentQuestionIndex];
@@ -65,7 +91,7 @@ const Quiz = ({ onFinish }) => {
           {currentQuestion.options.map((option, index) => (
             <button
               key={index}
-              onClick={() => handleAnswer(option.value)}
+              onClick={() => handleAnswer(option)}
               className="w-full py-5 px-8 bg-white dark:bg-gray-800 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-2xl text-lg md:text-xl text-left transition-all duration-200 border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500 shadow-sm hover:shadow-md font-medium text-gray-700 dark:text-gray-200"
             >
               {option.text}
