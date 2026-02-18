@@ -23,7 +23,7 @@ function App() {
   };
 
   return (
-    <div className="App bg-gray-900 min-h-screen">
+    <div className="App bg-gray-900 min-h-dvh w-full overflow-x-hidden">
       {view === 'start' && <StartScreen onStart={handleStart} />}
       {view === 'quiz' && <Quiz onFinish={handleFinishQuiz} />}
       {view === 'result' && <Result mbti={mbtiResult} onReset={handleReset} />}

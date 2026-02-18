@@ -2,10 +2,11 @@ import React from 'react';
 
 const StartScreen = ({ onStart }) => {
   return (
-    <div className="flex flex-col items-center justify-center h-dvh bg-gray-900 text-white p-6 relative overflow-hidden">
+    <div className="flex flex-col items-center justify-center w-full h-dvh bg-gray-900 text-white p-6 relative overflow-hidden m-0">
       {/* Background Decor */}
-      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-blue-600/20 rounded-full blur-[100px]"></div>
-      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-purple-600/20 rounded-full blur-[100px]"></div>
+      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-blue-600/30 rounded-full blur-[100px]"></div>
+      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-purple-600/30 rounded-full blur-[100px]"></div>
+      <div className="absolute top-[40%] left-[30%] w-[20%] h-[20%] bg-pink-600/20 rounded-full blur-[80px]"></div>
       
       <div className="relative z-10 text-center max-w-md w-full flex flex-col items-center">
         <span className="text-blue-400 font-bold tracking-[0.2em] text-sm mb-4 block animate-pulse">
