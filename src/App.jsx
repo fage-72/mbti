@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import QuizFlow from './pages/QuizFlow';
+import StartScreen from './components/StartScreen';
+import Quiz from './components/Quiz';
+import Result from './components/Result';
 import DetailPage from './pages/DetailPage';
 import SajuPage from './pages/SajuPage';
 import './App.css';
@@ -33,8 +35,21 @@ const GlobalNav = ({ darkMode, toggleTheme }) => {
   );
 };
 
+// Separate component to use useNavigate inside Router
+const AppRoutes = () => {
+  const navigate = useNavigate();
+  return (
+    <Routes>
+      <Route path="/" element={<StartScreen onStart={() => navigate('/quiz')} />} />
+      <Route path="/quiz" element={<Quiz onFinish={(data) => navigate('/result', { state: data })} />} />
+      <Route path="/result" element={<Result onReset={() => navigate('/')} />} />
+      <Route path="/saju" element={<SajuPage />} />
+      <Route path="/:slug" element={<DetailPage />} />
+    </Routes>
+  );
+};
+
 function App() {
-  // Theme State
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
     return savedTheme ? savedTheme === 'dark' : true;
@@ -58,12 +73,7 @@ function App() {
     <Router>
       <div className="App min-h-dvh w-full overflow-x-hidden bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white transition-colors duration-300 relative">
         <GlobalNav darkMode={darkMode} toggleTheme={toggleTheme} />
-
-        <Routes>
-          <Route path="/" element={<QuizFlow />} />
-          <Route path="/saju" element={<SajuPage />} />
-          <Route path="/:slug" element={<DetailPage />} />
-        </Routes>
+        <AppRoutes />
       </div>
     </Router>
   );

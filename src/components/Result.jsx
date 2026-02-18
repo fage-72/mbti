@@ -1,16 +1,23 @@
 import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import html2canvas from 'html2canvas';
 import { newsData } from '../data/newsData';
 import { fashionData } from '../data/fashionData';
 import { mbtiTraits } from '../data/mbtiTraits';
 
-const Result = ({ mbti, stats = { strategy: 50, focus: 50, risk: 50 }, level = 1, onReset }) => {
+const Result = ({ onReset }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const feedRef = useRef(null);
   const storyRef = useRef(null);
 
-  const resultData = newsData[mbti] || newsData['INFP']; // Default if not found
+  // Extract data from navigation state, fallback to defaults if not found
+  const resultState = location.state || {};
+  const mbti = resultState.mbti || 'INFP';
+  const stats = resultState.stats || { strategy: 50, focus: 50, risk: 50 };
+  const level = resultState.level || 1;
+
+  const resultData = newsData[mbti] || newsData['INFP'];
   const fashion = fashionData[mbti] || fashionData['INFP'];
   const traits = mbtiTraits[mbti] || mbtiTraits['INFP'];
 
