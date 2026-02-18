@@ -55,8 +55,8 @@ const CommunityPage = () => {
             const newCount = await runTransaction(db, async (transaction) => {
               const counterDoc = await transaction.get(counterRef);
               if (!counterDoc.exists()) {
-                transaction.set(counterRef, { count: 1 });
-                return 1;
+                transaction.set(counterRef, { count: 589 }); // Start from 589
+                return 589;
               } else {
                 const count = counterDoc.data().count + 1;
                 transaction.update(counterRef, { count: count });
